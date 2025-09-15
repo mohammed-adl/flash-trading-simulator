@@ -1,18 +1,17 @@
 import express from "express";
 const app = express();
 
-// TODO: setup
-// import { setupRoutes } from "./src/routes/v1/index.js";
+import { setupRoutes } from "./src/routes/v1/index.js";
 import { registerMiddlewares } from "./src/middlewares/global.middleware.js";
 import { errorHandler, notFound } from "./src/middlewares/index.js";
 
-// registerMiddlewares(app);
+registerMiddlewares(app);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// setupRoutes(app);
+setupRoutes(app);
 
 app.use(notFound);
 app.use(errorHandler);
