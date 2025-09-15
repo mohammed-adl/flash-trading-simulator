@@ -53,7 +53,7 @@ model Trade {
   type      TRADE_TYPE
   quantity  Decimal
   price     Decimal
-  profits   Decimal?
+  profit    Decimal?
   createdAt DateTime   @default(now())
   userId    String
 
