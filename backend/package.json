@@ -1,5 +1,5 @@
 {
-  "name": "Mohammed Salah",
+  "name": "Flash",
   "version": "1.0.0",
   "description": "Flash Trading Simulator backend API using Node.js, Express, Prisma, and real-time trading data.",
   "main": "server.js",
