@@ -3,7 +3,7 @@ import searchRouter from "./search.router.js";
 import stockRouter from "./stock.router.js";
 import transactionRouter from "./transaction.router.js";
 // import notificationRouter from "./notification.router.js";
-// import PortfolioRouter from "./portfolio.router.js";
+import PortfolioRouter from "./portfolio.router.js";
 import authRouter from "./auth.router.js";
 
 export function setupRoutes(app) {
@@ -13,5 +13,5 @@ export function setupRoutes(app) {
   app.use("/api/v1/stocks", stockRouter);
   app.use("/api/v1/transactions", transactionRouter);
   // app.use("/api/v1/notifications", notificationRouter);
-  // app.use("/api/v1/portfolio", PortfolioRouter);
+  app.use("/api/v1/portfolio", PortfolioRouter);
 }
