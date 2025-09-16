@@ -1,8 +1,9 @@
-import { socket } from "@/lib";
+import { socket } from "@/socket";
 import { authService } from "@/services";
 
 export const initSocketConnection = (user) => {
   try {
+    console.log("Initializing socket connection...");
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -11,11 +12,17 @@ export const initSocketConnection = (user) => {
     }
 
     socket.auth.token = token;
+
     socket.connect();
 
-    if (user?.holdings) {
-      socket.emit("setWatchlist", { holdings: user.holdings });
-    }
+    socket.on("connect", () => {
+      console.log("Socket connected:", socket.id);
+
+      if (user?.holdings) {
+        console.log("Emitting setWatchlist:", user.holdings);
+        socket.emit("setWatchlist", { holdings: user.holdings });
+      }
+    });
 
     socket.on("refreshTokenRequired", async () => {
       try {
@@ -26,9 +33,13 @@ export const initSocketConnection = (user) => {
         socket.disconnect();
         socket.connect();
 
-        // if (user?.holdings) {
-        //   socket.emit("setWatchlist", { holdings: user.holdings });
-        // }
+        socket.on("disconnect", (reason) =>
+          console.log("Socket disconnected:", reason)
+        );
+
+        if (user?.holdings) {
+          socket.emit("setWatchlist", { holdings: user.holdings });
+        }
       } catch (err) {
         console.log("Error refreshing token:", err);
       }
