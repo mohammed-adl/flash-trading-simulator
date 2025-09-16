@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { useUser, useStock, usePortfolio } from "@/contexts";
 import { ConfirmModal, Logo } from "@/components/ui";
-import { handleResetProfile, handleResetPassword } from "@/fetchers";
+import { handleResetProfile, handleUpdatePassword } from "@/fetchers";
 
 export default function SettingsPage() {
   const router = useRouter();
@@ -27,7 +27,6 @@ export default function SettingsPage() {
     try {
       setIsLoading(true);
       const body = await handleResetProfile();
-      console.log(body);
       setUser(body.user);
       setSelectedSymbol(null);
       router.push(`/${username}`);
@@ -42,10 +41,24 @@ export default function SettingsPage() {
   async function handleChangePassword() {
     setPasswordError("");
     setSuccessMessage("");
+    const passwordRegex = /^(?=.*[A-Z]).+$/;
+
+    if (!passwordRegex.test(newPassword)) {
+      setPasswordError("Password must contain at least one uppercase letter.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("Passwords do not match.");
+      return;
+    }
 
     try {
       setIsLoading(true);
-      await handleResetPassword({ email, newPassword });
+      await handleUpdatePassword({ email, newPassword });
+      setSuccessMessage("Password updated successfully.");
+      setNewPassword("");
+      setConfirmPassword("");
     } catch (err) {
       setPasswordError(err.message);
     } finally {

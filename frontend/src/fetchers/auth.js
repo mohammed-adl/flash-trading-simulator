@@ -46,3 +46,10 @@ export async function handleResetPassword(formData) {
     body: formData,
   });
 }
+
+export async function handleUpdatePassword(formData) {
+  return await reqApi("/auth/update-password", {
+    method: "POST",
+    body: formData,
+  });
+}

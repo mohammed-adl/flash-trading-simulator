@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-const usernameRegex = /^[a-zA-Z0-9_]+$/;
 const passwordRegex = /^(?=.*[A-Z]).+$/;
 
 export const signupBodySchema = z
