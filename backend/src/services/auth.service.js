@@ -96,10 +96,6 @@ const authService = {
   },
 
   // ==============================================
-  // PASSWORD RECOVERY
-  // ==============================================
-
-  // ==============================================
   // TOKEN HELPERS
   // ==============================================
   async saveRefreshToken(userId, refreshToken) {
@@ -219,6 +215,28 @@ const authService = {
         passcode: null,
         passcodeExpiresAt: null,
       },
+    });
+  },
+
+  async updatePassword(req, newPassword) {
+    const userId = req.user.id;
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { password: true },
+    });
+
+    const isOldPassword = await bcrypt.compare(newPassword, user.password);
+
+    if (isOldPassword) {
+      throw new AppError("You can't choose the same old password", 400);
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
     });
   },
 };

@@ -21,7 +21,7 @@ const generalLimiter = rateLimit({
 
 export const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -32,6 +32,12 @@ export const authLimiter = rateLimit({
 
 export const registerMiddlewares = (app) => {
   app.use(cors({ origin: ORIGIN, credentials: true }));
+  app.use(
+    cors({
+      origin: true,
+      credentials: true,
+    })
+  );
   app.use(cookieParser());
   app.use(helmet());
   app.use(generalLimiter);

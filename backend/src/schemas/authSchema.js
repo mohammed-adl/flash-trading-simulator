@@ -73,9 +73,19 @@ export const resetPassword = z
       .regex(/[a-z]/)
       .regex(/[A-Z]/)
       .regex(/[0-9]/),
-    confirmPassword: z.string().min(1),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const updatePassword = z.object({
+  email: z.string().email({ message: "Valid email required" }),
+  newPassword: z
+    .string()
+    .trim()
+    .min(8)
+    .regex(/[a-z]/)
+    .regex(/[A-Z]/)
+    .regex(/[0-9]/),
+});

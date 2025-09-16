@@ -3,3 +3,4 @@ export * from "./logOut.js";
 export * from "./refreshToken.js";
 export * from "./signUp.js";
 export * from "./resetPassword.js";
+export * from "./updatePassword.js";
