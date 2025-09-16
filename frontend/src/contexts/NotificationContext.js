@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { socket } from "../lib";
+import { socket } from "../socket";
 import { useUser } from "../contexts";
 
 const NotificationContext = createContext();
