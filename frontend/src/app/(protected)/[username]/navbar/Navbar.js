@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 import SearchStocks from "./SearchStocks";
 import WalletDropdown from "./WalletDropdown";
-// import UserPanel from "./userPanel/UserPanel";
+import UserPanel from "./userPanel/UserPanel";
 
 import { Logo } from "@/components/ui";
 
@@ -24,7 +24,7 @@ export default function Navbar({ username }) {
 
       <div className="flex items-center gap-4">
         <SearchStocks />
-        {/* // <UserPanel /> */}
+        <UserPanel />
       </div>
     </header>
   );

@@ -14,12 +14,12 @@ export default function Providers({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
-        {/* <NotificationProvider> */}
-        <StockProvider>
-          {children}
-          {/* <PortfolioProvider></PortfolioProvider> */}{" "}
-        </StockProvider>
-        {/* </NotificationProvider> */}
+        <NotificationProvider>
+          <StockProvider>
+            {children}
+            {/* <PortfolioProvider></PortfolioProvider> */}{" "}
+          </StockProvider>
+        </NotificationProvider>
       </UserProvider>
     </QueryClientProvider>
   );
