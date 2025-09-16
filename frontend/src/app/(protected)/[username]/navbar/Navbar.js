@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 
-// import SearchStocks from "./SearchStocks";
-// import WalletDropdown from "./WalletDropdown";
+import SearchStocks from "./SearchStocks";
+import WalletDropdown from "./WalletDropdown";
 // import UserPanel from "./userPanel/UserPanel";
 
 import { Logo } from "@/components/ui";
@@ -19,12 +19,12 @@ export default function Navbar({ username }) {
           className="cursor-pointer"
         />
         <span className="text-primary">/</span>
-        {/* <WalletDropdown username={username} /> */}
+        <WalletDropdown username={username} />
       </div>
 
       <div className="flex items-center gap-4">
-        {/* <SearchStocks />
-        <UserPanel /> */}
+        <SearchStocks />
+        {/* // <UserPanel /> */}
       </div>
     </header>
   );
