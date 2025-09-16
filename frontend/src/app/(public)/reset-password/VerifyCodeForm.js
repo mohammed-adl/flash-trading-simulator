@@ -16,7 +16,6 @@ export default function VerifyCodeForm({
     setError("");
     setLoading(true);
     try {
-      // Send both email and passcode
       await handleVerifyPasscode({
         email: formData.email,
         passcode: formData.passcode,
@@ -37,7 +36,7 @@ export default function VerifyCodeForm({
           We sent you a code
         </h1>
 
-        <p className="text-center text-sm text-muted-foreground mb-2">
+        <p className="text-center text-sm text-muted mb-2">
           Check your email to get your confirmation code. If you need to request
           a new code, go back and reselect a confirmation.
         </p>

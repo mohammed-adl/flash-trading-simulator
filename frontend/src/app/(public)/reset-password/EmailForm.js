@@ -37,11 +37,7 @@ export default function EmailForm({
         className="w-full max-w-xs flex flex-col space-y-4 mt-10"
         noValidate
       >
-        <h1 className="text-2xl font-bold text-center mb-4">
-          Enter your email
-        </h1>
-
-        <p className="text-center text-sm text-muted-foreground">
+        <p className="text-center text-sm text-muted">
           Enter your email address and we'll send you a link to reset your
           password.
         </p>
