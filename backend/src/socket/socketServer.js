@@ -5,7 +5,7 @@ export let io = null;
 
 export function setupSocket(server) {
   io = new Server(server, {
-    cors: { origin: ORIGIN, methods: ["GET", "POST"] },
+    cors: { origin: "*", methods: ["GET", "POST"] },
   });
 
   return io;

@@ -5,7 +5,7 @@ import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
-const ORIGIN = process.env.ORIGIN || "http://localhost:3000";
+const ORIGIN = process.env.ORIGIN;
 import { RATE_LIMIT } from "../config/constants.js";
 
 const generalLimiter = rateLimit({
@@ -31,7 +31,20 @@ export const authLimiter = rateLimit({
 });
 
 export const registerMiddlewares = (app) => {
-  app.use(cors({ origin: ORIGIN, credentials: true }));
+  const allowedOrigins = [
+    "https://flash-sim.vercel.app",
+    "http://localhost:3000",
+  ];
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin))
+          return callback(null, true);
+        callback(new Error("Not allowed by CORS"));
+      },
+      credentials: true,
+    })
+  );
   app.use(
     cors({
       origin: true,
