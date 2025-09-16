@@ -16,8 +16,7 @@ export default function Providers({ children }) {
       <UserProvider>
         <NotificationProvider>
           <StockProvider>
-            {children}
-            {/* <PortfolioProvider></PortfolioProvider> */}{" "}
+            <PortfolioProvider> {children}</PortfolioProvider>
           </StockProvider>
         </NotificationProvider>
       </UserProvider>
