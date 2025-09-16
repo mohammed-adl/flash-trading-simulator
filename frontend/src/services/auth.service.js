@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { socket } from "@/lib";
+import { socket } from "@/socket";
 
 import { handleRefreshToken } from "../fetchers";
 

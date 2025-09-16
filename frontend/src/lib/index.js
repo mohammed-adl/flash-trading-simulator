@@ -2,4 +2,4 @@
 // export * from "./validateToken.js";
 // export * from "./socket.js";
 // export * from "./fetchPrice.js";
-// export * from "./axios.js";
+export * from "./axios.js";
