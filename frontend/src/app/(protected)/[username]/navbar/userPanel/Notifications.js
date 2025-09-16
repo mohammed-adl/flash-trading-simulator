@@ -102,9 +102,7 @@ export default function Notifications() {
             )}
             {!loading && notifications.length > 0 && (
               <button
-                onClick={() =>
-                  router.push(`/${profile?.username}/notifications`)
-                }
+                onClick={() => router.push(`/${user?.username}/notifications`)}
                 className="w-full text-center text-sm p-2 hover:bg-[#1a1a1a] text-primary border-t border-border cursor-pointer"
               >
                 See all notifications
