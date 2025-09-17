@@ -7,9 +7,9 @@ export const resetProfile = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 
   const result = await prisma.$transaction(async (tx) => {
-    await tx.holding.deleteMany({ where: { userId: userId } });
-    await tx.trade.deleteMany({ where: { userId: userId } });
-    await tx.transaction.deleteMany({ where: { userId: userId } });
+    await tx.holding.deleteMany({ where: { userId } });
+    await tx.trade.deleteMany({ where: { userId } });
+    await tx.transaction.deleteMany({ where: { userId } });
 
     const user = await tx.user.update({
       where: { id: userId },
@@ -20,15 +20,15 @@ export const resetProfile = asyncHandler(async (req, res) => {
       select: userSelect,
     });
 
-    return { user };
-  });
+    await tx.transaction.create({
+      data: {
+        userId: userId,
+        type: "DEPOSIT",
+        amount: INITIAL_BALANCE,
+      },
+    });
 
-  await prisma.$transaction.create({
-    data: {
-      userId: userId,
-      type: "DEPOSIT",
-      amount: INITIAL_BALANCE,
-    },
+    return { user };
   });
 
   const keysToDelete = [
