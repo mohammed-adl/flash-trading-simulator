@@ -1,7 +1,8 @@
 import asyncHandler from "express-async-handler";
 import { success } from "../../lib/index.js";
 import { REFRESH_TOKEN_MAX_AGE } from "../../config/constants.js";
-import { authService } from "../../services/index.js";
+import { authService, redisService } from "../../services/index.js";
+import { INITIAL_BALANCE } from "../../config/index.js";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -29,6 +30,8 @@ export const signUp = asyncHandler(async (req, res) => {
     maxAge: REFRESH_TOKEN_MAX_AGE,
     path: "/",
   });
+
+  await redisService.setTransactions(user.id, INITIAL_BALANCE, "DEPOSIT");
 
   success(
     res,

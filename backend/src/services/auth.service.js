@@ -1,8 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AppError } from "../utils/index.js";
-
-import { prisma, sendEmailPasscode, userSelect } from "../lib/index.js";
+import { prisma, redis, sendEmailPasscode, userSelect } from "../lib/index.js";
 
 import { generatePasscode } from "../utils/index.js";
 
