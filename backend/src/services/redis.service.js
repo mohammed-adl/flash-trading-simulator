@@ -114,8 +114,6 @@ const redisService = {
     stats.totalTrades += 1;
     stats.realizedPnL += profit;
     stats.totalSharesTraded += Number(trade.quantity);
-    stats.winRate = (stats.winningTrades / stats.totalTrades) * 100;
-    stats.avgPnl = stats.realizedPnL / stats.totalTrades;
 
     if (profit > 0) {
       stats.winningTrades += 1;
@@ -130,6 +128,9 @@ const redisService = {
         stats.losingTrades;
       if (profit < stats.largestLoss) stats.largestLoss = profit;
     }
+
+    stats.winRate = (stats.winningTrades / stats.totalTrades) * 100;
+    stats.avgPnl = stats.realizedPnL / stats.totalTrades;
 
     stats.lastTrade = {
       id: trade.id,

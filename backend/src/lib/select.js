@@ -33,6 +33,7 @@ export const tradeSelect = {
   quantity: true,
   price: true,
   createdAt: true,
+  profit: true,
 };
 
 export const transactionSelect = {
