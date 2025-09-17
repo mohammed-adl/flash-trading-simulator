@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { HelpCircle } from "lucide-react";
 
 import TransactionsModal from "./TransactionsModal";
 import StatCard from "./StatCard";
+import Tooltips from "./ToolTips";
 
 import { useUser, useStock } from "@/contexts";
 import { formatCurrency, calcPortfolioValue } from "@/utils";
@@ -53,26 +53,14 @@ export default function Wallet() {
           <p className="text-2xl sm:text-3xl font-bold max-md:text-xl">
             {formatCurrency(portfolioValue)}
           </p>
-
-          <div className="relative group">
-            <HelpCircle className="w-4 h-4 text-secondary cursor-pointer" />
-            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 ml-2 w-64 p-2 rounded-md bg-card border border-border text-sm text-muted shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none lg:right-auto lg:left-full lg:ml-2">
-              Total portfolio value including positions and available balance
-            </div>
-          </div>
+          <Tooltips content="Total portfolio value including positions and available balance" />
         </div>
 
         <div className="flex items-center gap-2 mt-1">
           <span className="text-xs md:text-sm text-primary">
             {formatCurrency(balance)}
           </span>
-
-          <div className="relative group">
-            <HelpCircle className="w-4 h-4 text-secondary cursor-pointer" />
-            <div className="absolute right-0 top-1/2 transform -translate-y-1/2 ml-2 w-56 p-3 rounded-md bg-card border border-border text-sm text-muted shadow-md opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none lg:right-auto lg:left-full lg:ml-2">
-              Available balance for trading
-            </div>
-          </div>
+          <Tooltips content="Available balance for trading" size="w-56" />
         </div>
       </div>
 
