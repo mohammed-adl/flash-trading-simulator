@@ -1,5 +1,5 @@
 {
-  "name": "Flash",
+  "name": "flash",
   "version": "1.0.0",
   "description": "Flash Trading Simulator backend API using Node.js, Express, Prisma, and real-time trading data.",
   "main": "server.js",
@@ -17,6 +17,8 @@
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+
     "express": "^5.1.0",
     "express-async-handler": "^1.2.0",
     "express-rate-limit": "^8.1.0",
@@ -31,6 +33,5 @@
     "zod": "^4.1.8"
   },
   "devDependencies": {
-    "dotenv": "^17.2.2"
   }
 }

@@ -38,7 +38,7 @@ export default function ProtectedRoute({ children }) {
   useEffect(() => {
     validateToken();
     return () => disconnectSocket();
-  }, [user, username]);
+  }, [validateToken]);
 
   if (loading) return <LoadingScreen />;
   if (!user) return <LoadingScreen />;

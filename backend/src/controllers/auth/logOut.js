@@ -17,7 +17,7 @@ export const logOut = asyncHandler(async (req, res) => {
   res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: isProd,
-    sameSite: "Strict",
+    sameSite: "none",
     path,
   });
   res.status(204).end();

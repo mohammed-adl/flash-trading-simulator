@@ -1,8 +1,7 @@
-import { io } from "./socketServer.js";
 import { fetchUserPositions, buildWatchlistData } from "./stockService.js";
 import { PRICES_UPDATE_INTERVAL } from "../config/constants.js";
 
-export function handleConnection(socket) {
+export function handleConnection(io, socket) {
   console.log("Client connected");
 
   let clientWatchlist = [];

@@ -27,7 +27,7 @@ export const signUp = asyncHandler(async (req, res) => {
     secure: isProd,
     sameSite: "Strict",
     maxAge: REFRESH_TOKEN_MAX_AGE,
-    path,
+    path: "/",
   });
 
   success(

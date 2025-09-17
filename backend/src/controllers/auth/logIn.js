@@ -36,8 +36,8 @@ export const logIn = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: isProd,
     maxAge: REFRESH_TOKEN_MAX_AGE,
-    sameSite: "Strict",
-    path,
+    sameSite: "none",
+    path: "/",
   });
 
   success(res, {

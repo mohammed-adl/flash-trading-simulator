@@ -58,9 +58,9 @@ export const refreshToken = asyncHandler(async (req, res) => {
   res.cookie("refreshToken", newRefreshToken, {
     httpOnly: true,
     secure: isProd,
-    sameSite: "Strict",
+    sameSite: "none",
     maxAge: REFRESH_TOKEN_MAX_AGE,
-    path,
+    path: "/",
   });
 
   success(res, { user, token: newAccessToken });
