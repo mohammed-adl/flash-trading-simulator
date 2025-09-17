@@ -39,7 +39,6 @@ export default function SearchStocks() {
 
       if (
         e.type === "mousedown" &&
-        !isFocused &&
         dropdownRef.current &&
         !dropdownRef.current.contains(e.target)
       ) {
@@ -92,7 +91,7 @@ export default function SearchStocks() {
       </div>
 
       {results.length > 0 && (
-        <div className="absolute top-12 right-8 w-xs bg-card border border-border rounded-xl shadow-lg overflow-hidden z-10">
+        <div className="absolute top-12 right-8 sm:right-8 max-w-[70vw] w-72 max-h-80 overflow-auto bg-card border border-border rounded-xl shadow-lg z-10">
           {results
             .filter((stock) => stock && stock.symbol)
             .map((stock) => (
