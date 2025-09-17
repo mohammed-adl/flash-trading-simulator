@@ -14,6 +14,7 @@ export function handleConnection(io, socket) {
       clientWatchlist,
       userPositions
     );
+
     io.to(socket.userId).emit("stockUpdate", watchlistData);
   }
 

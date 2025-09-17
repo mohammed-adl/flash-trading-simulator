@@ -2,6 +2,7 @@ import yahooFinance from "yahoo-finance2";
 
 import { calcPnLPercent } from "../utils/index.js";
 import { notificationService, redisService } from "../services/index.js";
+import { PRICES_UPDATE_INTERVAL } from "../config/index.js";
 
 export const stockCache = new Map();
 export let marketWatchlist = new Set();
@@ -80,12 +81,32 @@ export async function buildWatchlistData(clientWatchlist, userPositions) {
   return data;
 }
 
-// Periodically fetch all prices for marketWatchlist
+// Periodically fetch all prices for marketWatchlist and update the cache
 export async function fetchAllPrices() {
   if (marketWatchlist.size === 0) return;
-  const symbols = Array.from(marketWatchlist);
 
-  for (const sym of symbols) {
-    await fetchStockPrice(sym);
+  try {
+    const symbols = Array.from(marketWatchlist);
+    const quotes = await Promise.all(
+      symbols.map((sym) =>
+        yahooFinance.quote(sym).catch((err) => {
+          console.error(`Error fetching ${sym}:`, err.message);
+          return null;
+        })
+      )
+    );
+
+    quotes.forEach((quote, i) => {
+      if (quote) {
+        stockCache.set(symbols[i], {
+          name: quote.shortName,
+          price: quote.regularMarketPrice,
+        });
+      }
+    });
+  } catch (err) {
+    console.error("Error in fetchAllPrices:", err.message);
   }
 }
+
+setInterval(fetchAllPrices, PRICES_UPDATE_INTERVAL);
