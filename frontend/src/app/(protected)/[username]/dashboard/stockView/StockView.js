@@ -21,14 +21,16 @@ export default function StockView() {
   const { stocksPrices, selectedSymbol } = useStock();
   const [range, setRange] = useState("M");
 
-  const lastActiveSymbol = user.holdings[0]?.symbol || "";
+  const lastActiveSymbol = user.holdings[0]?.symbol;
+
+  const validSymbol = selectedSymbol || lastActiveSymbol || "AMZN";
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["stockData", selectedSymbol, range],
     queryFn: async () => {
       try {
         return await handleGetStock({
-          symbol: selectedSymbol ?? lastActiveSymbol,
+          symbol: validSymbol,
           range,
         });
       } catch (err) {
@@ -36,13 +38,10 @@ export default function StockView() {
       }
     },
     retry: 1,
-    enabled: !!selectedSymbol || !!lastActiveSymbol,
   });
 
   const stockData = data?.stock;
   const chartData = stockData?.charts || [];
-
-  const validSymbol = selectedSymbol ?? lastActiveSymbol;
 
   const quantity = Number(
     stocksPrices.find((s) => s.symbol === validSymbol)?.quantity ?? 0
