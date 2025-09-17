@@ -41,7 +41,7 @@ export default function ProtectedRoute({ children }) {
   }, [validateToken]);
 
   if (loading) return <LoadingScreen />;
-  if (!user) return <LoadingScreen />;
+  if (!user) authService.logout();
 
   return <>{children}</>;
 }
