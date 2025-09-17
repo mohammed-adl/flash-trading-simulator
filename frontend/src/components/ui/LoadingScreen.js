@@ -2,7 +2,7 @@ import { Logo } from "./Brand";
 
 export default function LoadingScreen() {
   return (
-    <div className="h-screen w-screen flex items-center justify-center">
+    <div className="h-screen w-screen flex flex-col items-center justify-center pb-[10vh] sm:justify-center sm:pt-0">
       <div className="flex flex-col items-center gap-4">
         <Logo className="w-15 h-15" />
         <div className="flex gap-1">
