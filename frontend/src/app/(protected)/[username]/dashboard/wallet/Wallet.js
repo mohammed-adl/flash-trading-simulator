@@ -43,7 +43,7 @@ export default function Wallet() {
   const stats = data?.stats || {};
 
   return (
-    <div className="relative bg-card rounded-xl p-4 mb-4 lg:mb-18 border border-border flex flex-col h-[600px] md:h-[600px] lg:h-auto">
+    <div className="relative bg-card rounded-xl p-4 mb-4 lg:mb-18 border border-border flex flex-col h-[700px] md:h-[700px] lg:h-auto">
       <div>
         <h2 className="text-lg font-semibold max-lg:text-base max-md:text-sm flex items-center gap-1">
           Wallet

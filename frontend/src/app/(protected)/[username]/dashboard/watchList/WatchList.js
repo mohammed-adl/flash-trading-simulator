@@ -19,7 +19,7 @@ export default function WatchList() {
   const sortedStocks = sortWatchList(watchlistDisplay);
 
   return (
-    <SimpleBar className="relative h-screen lg:h-screen max-lg:h-[600px] max-md:h-[600px] bg-card rounded-xl p-6 border border-border">
+    <SimpleBar className="relative h-screen lg:h-screen max-lg:h-[700px] max-md:h-[700px] bg-card rounded-xl p-6 border border-border">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Watchlist</h2>
 

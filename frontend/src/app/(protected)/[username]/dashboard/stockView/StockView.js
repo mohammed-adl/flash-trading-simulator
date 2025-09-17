@@ -79,7 +79,7 @@ export default function StockView() {
   };
 
   return (
-    <div className="relative bg-card rounded-xl p-6 mb-4 lg:mb-18 border border-border flex flex-col h-[600px] md:h-[600px] lg:h-auto">
+    <div className="relative bg-card rounded-xl p-6 mb-4 lg:mb-18 border border-border flex flex-col h-[700px] md:h-[700px] lg:h-auto">
       <h2 className="text-lg font-semibold text-foreground flex space-x-1">
         <span>{name}</span>
         <span>({selectedSymbol || stockSymbol})</span>

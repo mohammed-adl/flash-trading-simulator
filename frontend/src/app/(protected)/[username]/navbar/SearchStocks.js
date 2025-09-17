@@ -101,6 +101,13 @@ export default function SearchStocks() {
                   setSelectedSymbol(stock.symbol);
                   setQuery("");
                   setResults([]);
+
+                  if (window.innerWidth < 768) {
+                    window.scrollTo({
+                      top: window.innerHeight * 0.8,
+                      behavior: "smooth",
+                    });
+                  }
                 }}
                 className="flex items-center justify-between px-4 py-2.5 hover:bg-secondary/30 hover:shadow-md transition-all cursor-pointer"
               >
