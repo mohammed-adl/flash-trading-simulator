@@ -104,7 +104,7 @@ export default function SearchStocks() {
 
                   if (window.innerWidth < 768) {
                     window.scrollTo({
-                      top: window.innerHeight * 0.8,
+                      top: window.innerHeight * 0.6,
                       behavior: "smooth",
                     });
                   }

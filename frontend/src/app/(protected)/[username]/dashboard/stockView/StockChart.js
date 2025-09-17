@@ -11,7 +11,7 @@ import {
 
 export default function StockChart({ chartData, trendUp }) {
   return (
-    <div className="mt-2 w-full h-64">
+    <div className="mt-2 w-full h-40 sm:h-64">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartData}>
           <XAxis dataKey="date" hide />
@@ -22,7 +22,7 @@ export default function StockChart({ chartData, trendUp }) {
               border: "1px solid var(--border)",
               borderRadius: "8px",
             }}
-            formatter={(value) => [`$${value}`, "Price"]}
+            formatter={(value) => [`$${Number(value).toFixed(2)}`, "Price"]}
           />
           <Line
             type="monotone"
