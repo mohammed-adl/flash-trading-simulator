@@ -52,9 +52,9 @@ export default function Login() {
   return (
     <div className="relative min-h-screen flex flex-col bg-background text-foreground px-4 sm:px-6">
       <div className="w-full mt-6 flex justify-between items-center px-4">
-        <Brand />
+        <Brand className="ml-0 sm:ml-50" />
         <Button
-          className="h-10 px-3 text-lg font-semibold bg-background border border-border text-bg transition-colors hover:bg-border cursor-pointer rounded-lg text-sm"
+          className="h-10 px-3  mr-0 sm:mr-50 text-lg font-semibold bg-background border border-border text-bg transition-colors hover:bg-border cursor-pointer rounded-lg text-sm"
           onClick={() => router.push("/signup")}
         >
           Sign Up
