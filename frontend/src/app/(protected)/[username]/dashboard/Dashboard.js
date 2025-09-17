@@ -17,11 +17,12 @@ import {
   Wallet as WalletIcon,
 } from "lucide-react";
 
-import { useUser } from "@/contexts";
+import { useUser, useNotification } from "@/contexts";
 import { authService } from "@/services";
 
 export default function Dashboard() {
   const { user } = useUser();
+  const { hasNotifications, setHasNotifications } = useNotification();
   const router = useRouter();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -91,10 +92,18 @@ export default function Dashboard() {
                 />
               </>
             )}
-            <Bell
-              className="w-8 h-8 cursor-pointer p-1 rounded-full hover:bg-gray-100 transition-colors duration-200"
+            <div
+              className="relative w-8 h-8 cursor-pointer p-1 rounded-full hover:bg-gray-100 transition-colors duration-200"
               onClick={() => router.push(`/${user?.username}/notifications`)}
-            />
+            >
+              <Bell
+                className="w-full h-full"
+                onClick={() => setHasNotifications(false)}
+              />
+              {hasNotifications && (
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+              )}
+            </div>
           </>
         )}
 
