@@ -3,7 +3,6 @@ export const userSelect = {
   username: true,
   email: true,
   hasNotifications: true,
-  welcomeSent: true,
 
   balance: true,
   profits: true,

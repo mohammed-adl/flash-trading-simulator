@@ -41,7 +41,7 @@ const notificationService = {
 
     await prisma.user.update({
       where: { id: userId },
-      data: { hasNotifications: true },
+      data: { hasNotifications: true, welcomeSent: true },
     });
   },
 };

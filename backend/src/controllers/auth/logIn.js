@@ -13,15 +13,6 @@ export const logIn = asyncHandler(async (req, res) => {
   const user = await authService.logIn(email, password);
   if (!user) return fail("Invalid credentials", 401);
 
-  if (!user.welcomeSent) {
-    notificationService.sendToUser(user.id);
-
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { welcomeSent: true, hasNotifications: true },
-    });
-  }
-
   const accessToken = authService.generateAccessToken({
     id: user.id,
   });

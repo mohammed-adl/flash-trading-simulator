@@ -30,14 +30,28 @@ const authService = {
     }
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    const user = await prisma.user.create({
-      data: {
-        email: data.email,
-        password: hashedPassword,
-        name: data.name,
-        username: data.username,
-      },
-      select: userSelect,
+    const user = await prisma.$transaction(async (prismaTx) => {
+      const newUser = await prismaTx.user.create({
+        data: {
+          email: data.email,
+          password: hashedPassword,
+          name: data.name,
+          username: data.username,
+          hasNotifications: true,
+        },
+        select: userSelect,
+      });
+
+      await prismaTx.notification.create({
+        data: {
+          type: "WELCOME",
+          title: "Welcome to Flash",
+          content: "You have successfully created your account.",
+          userId: newUser.id,
+        },
+      });
+
+      return newUser;
     });
 
     return user;

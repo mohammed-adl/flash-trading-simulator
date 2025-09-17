@@ -10,12 +10,13 @@ import { Mail, Eye, EyeOff } from "lucide-react";
 import { Brand, Button, Input, Logo } from "@/components/ui";
 
 import { authService } from "@/services";
-import { useUser } from "@/contexts";
+import { useUser, useNotification } from "@/contexts";
 import { handleSignUp } from "@/fetchers";
 import { signupBodySchema } from "@/schemas";
 
 export default function Signup() {
   const { setUser } = useUser();
+  const { setHasNotifications } = useNotification();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [serverError, setServerError] = useState(null);
@@ -42,6 +43,7 @@ export default function Signup() {
     try {
       const body = await handleSignUp(values);
       authService.setToken(body.token);
+      setHasNotifications(true);
       setUser(body.user);
 
       router.push(`/${body.user.username}`);

@@ -12,8 +12,7 @@ model User {
   username          String    @unique
   password          String
   email             String    @unique
-  hasNotifications  Boolean   @default(false)
-  welcomeSent       Boolean   @default(false)
+  hasNotifications  Boolean   @default(true)
   passcode          String?
   passcodeExpiresAt DateTime?
   createdAt         DateTime  @default(now())
