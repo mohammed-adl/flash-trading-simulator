@@ -49,6 +49,13 @@ export default function WalletDropdown({ onSelect, username }) {
     setFilter("");
     if (onSelect) onSelect(a);
     setSelectedSymbol(a.symbol);
+
+    if (window.innerWidth < 768) {
+      window.scrollTo({
+        top: window.innerHeight * 0.88,
+        behavior: "smooth",
+      });
+    }
   }
 
   return (
