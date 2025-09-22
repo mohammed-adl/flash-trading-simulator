@@ -5,7 +5,6 @@ import { success, fail, prisma } from "../../lib/index.js";
 import { REFRESH_TOKEN_MAX_AGE } from "../../config/constants.js";
 
 const isProd = process.env.NODE_ENV === "production";
-const path = isProd ? "/api/auth" : "/";
 
 export const logIn = asyncHandler(async (req, res) => {
   const { email, password } = req.body;

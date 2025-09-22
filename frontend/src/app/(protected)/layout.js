@@ -14,31 +14,34 @@ export default function ProtectedRoute({ children }) {
   const router = useRouter();
   const { username } = useParams();
 
-  const validateToken = async () => {
-    try {
-      const isExpired = await authService.validateAccessToken();
-      if (isExpired) {
-        const body = await authService.callRefreshToken();
-        if (body) authService.setToken(body.token);
-      }
-
-      if (user?.username && user.username !== username) {
-        router.replace(`/${user.username}`);
-        return;
-      }
-
-      initSocketConnection(user);
-    } catch (err) {
-      authService.logout();
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    if (!user) return;
+
+    const validateToken = async () => {
+      try {
+        const isExpired = await authService.validateAccessToken();
+        if (isExpired) {
+          const body = await authService.callRefreshToken();
+          if (body) authService.setToken(body.token);
+        }
+
+        if (user?.username && user.username !== username) {
+          router.replace(`/${user.username}`);
+          return;
+        }
+
+        initSocketConnection(user);
+      } catch (err) {
+        authService.logout();
+      } finally {
+        setLoading(false);
+      }
+    };
+
     validateToken();
+
     return () => disconnectSocket();
-  }, [validateToken]);
+  }, [user, username, router]);
 
   if (loading) return <LoadingScreen />;
   if (!user) authService.logout();

@@ -1,6 +1,8 @@
 # Flash – Trading Simulator
 
-![Project Logo](/frontend/src/assets/brand.svg)
+<p align="center">
+  <img src="/frontend/public/main.gif" alt="Main Demo GIF" width="700"/>
+</p>
 
 A full-stack, real-time trading simulator built with Next.js, Express, Prisma, Tailwind, Redis, and Socket.IO. Flash combines powerful functionality with an intuitive, user-friendly interface, letting users trade stocks, manage portfolios, and track watchlists in real time, while demonstrating scalable architecture and advanced security.
 
@@ -62,43 +64,50 @@ Live Demo: [https://flash-sim.vercel.app](https://flash-sim.vercel.app)
 - Modular React architecture with four global contexts for user, portfolio, notifications, and stock data.
 - Organized fetchers, services, and utilities ensure maintainable and scalable code.
 
+---
+
 ## Architecture & Project Structure
 
+```text
 flash/
 ├─ frontend/
-│ ├─ public/ # Static assets like images, fonts
-│ ├─ .env # Environment variables
-│ ├─ .gitignore
-│ └─ src/
-│ ├─ app/ # Main app entry and routing
-│ ├─ assets/ # Images, icons, and other static files
-│ ├─ components/ # Reusable React components
-│ ├─ contexts/ # React context for global state
-│ ├─ fetchers/ # API fetcher functions
-│ ├─ lib/ # Helper libraries
-│ ├─ config/ # Frontend configuration files
-│ ├─ schemas/ # Zod schemas
-│ ├─ services/ # Frontend business logic
-│ ├─ socket/ # Socket.IO client code
-│ └─ utils/ # Utility functions
+│  ├─ public/         # Static assets like images, fonts
+│  ├─ .env            # Environment variables
+│  ├─ .gitignore
+│  └─ src/
+│     ├─ app/         # Main app entry and routing
+│     ├─ assets/      # Images, icons, and other static files
+│     ├─ components/  # Reusable React components
+│     ├─ contexts/    # React context for global state
+│     ├─ fetchers/    # API fetcher functions
+│     ├─ lib/         # Helper libraries
+│     ├─ config/      # Frontend configuration files
+│     ├─ schemas/     # Zod schemas
+│     ├─ services/    # Frontend business logic
+│     ├─ socket/      # Socket.IO client code
+│     └─ utils/       # Utility functions
 
 ├─ backend/
-│ ├─ prisma/ # Prisma schema & migrations
-│ ├─ .env
-│ ├─ .gitignore
-│ ├─ app.js # Express app setup
-│ ├─ server.js # Entry point for backend server
-│ └─ src/
-│ ├─ config/ # Backend configuration files
-│ ├─ controllers/ # Express route handlers
-│ ├─ lib/ # Helper libraries
-│ ├─ middlewares/ # Auth, validation, rate limiting, etc.
-│ ├─ routes/ # API route definitions
-│ ├─ schemas/ # Validation schemas (Zod)
-│ ├─ services/ # Business logic helpers
-│ ├─ socket/ # Socket.IO server code
-│ └─ utils/ # Utility functions
+│  ├─ prisma/         # Prisma schema & migrations
+│  ├─ .env
+│  ├─ .gitignore
+│  ├─ app.js          # Express app setup
+│  ├─ server.js       # Entry point for backend server
+│  └─ src/
+│     ├─ config/      # Backend configuration files
+│     ├─ controllers/ # Express route handlers
+│     ├─ lib/         # Helper libraries
+│     ├─ middlewares/ # Auth, validation, rate limiting, etc.
+│     ├─ routes/      # API route definitions
+│     ├─ schemas/     # Validation schemas (Zod)
+│     ├─ services/    # Business logic helpers
+│     ├─ socket/      # Socket.IO server code
+│     └─ utils/       # Utility functions
+
 ├─ README.md
+```
+
+---
 
 ## Getting Started
 
@@ -115,24 +124,28 @@ Make sure you have the following installed:
 
 ### Clone the repository
 
+```bash
 git clone https://github.com/flash-trading-simulator/flash.git
 cd flash-trading-simulator
+```
 
 ### Install dependencies
 
+```bash
 # Backend
-
 cd backend
 npm install
 
 # Frontend
-
 cd ../frontend
 npm install
+```
 
 ### Configure environment variables
 
 **Backend `.env`**
+
+```bash
 NODE_ENV=development
 PORT=3001
 ORIGIN=http://localhost:3000
@@ -142,32 +155,37 @@ REFRESH_SECRET=your_jwt_refresh_secret
 
 DATABASE_URL=postgres://username:password@localhost:5432/flash
 REDIS_URL=redis://username:password@host:port
+```
 
 **Frontend `.env`**
+
+```bash
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+```
 
 ### Run the application
 
+```bash
 # Start backend
-
 cd backend
 npm run dev
 
 # Start frontend
-
 cd ../frontend
 npm run dev
+```
 
-Open your browser at http://localhost:3000 to access the app.
+Open your browser at [http://localhost:3000](http://localhost:3000) to access the app.
 
 ### Database Migrations
 
-If you make schema changes, run:
+```bash
 cd backend
 npx prisma generate
 npx prisma migrate dev
+```
 
 ### Additional Notes
 
@@ -175,14 +193,16 @@ npx prisma migrate dev
 - The frontend supports hot-reloading — changes appear instantly in the browser.
 - Passwords are hashed with bcrypt, and authentication is handled via JWT.
 
+---
+
 ## Tech Stack
 
-- Frontend: Next.js, Tailwind CSS
-- Backend: Express.js, Prisma ORM
-- Realtime / Data: Socket.IO, Yahoo Finance API
-- Caching: Redis
-- Authentication & Security: JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
-- Deployment: Render (backend), Vercel (frontend)
+- **Frontend:** Next.js, Tailwind CSS
+- **Backend:** Express.js, Prisma ORM
+- **Realtime / Data:** Socket.IO, Yahoo Finance API
+- **Caching:** Redis
+- **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
+- **Deployment:** Render (backend), Vercel (frontend)
 
 ---
 
@@ -193,10 +213,15 @@ npx prisma migrate dev
 3. Buy or sell stocks — your portfolio updates in real time.
 4. Track your performance with portfolio charts, trade history, and analytics.
 
+---
+
 ## Screenshots / Demo
 
-![Demo](/frontend/public/demo.gif)
-![Portfolio](/frontend/public/portfolio.PNG)
+<p align="center">
+  <img src="/frontend/public/portfolio.PNG" alt="Portfolio Screenshot" width="600"/>
+</p>
+
+---
 
 ## Future Improvements
 

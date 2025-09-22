@@ -25,8 +25,13 @@ api.interceptors.response.use(
           .then((body) => {
             authService.setToken(body.token);
             if (socket?.connected) {
+              socket.disconnect();
               initSocketConnection();
             }
+          })
+          .catch((err) => {
+            console.log(err);
+            authService.logout();
           })
           .finally(() => {
             refreshing = null;
