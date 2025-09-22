@@ -23,9 +23,8 @@ export default function Tooltips({ content, size = "w-64" }) {
       />
       {open && (
         <div
-          className={`absolute top-1/2 transform -translate-y-1/2 p-2 rounded-md bg-card border border-border text-sm text-muted shadow-md z-50 ${size} 
-            right-0 lg:right-auto lg:left-full lg:ml-2
-            left-[10%] sm:left-[150%]`}
+          className={`absolute  transform -translate-y-1/2 p-2 rounded-md bg-card border border-border text-sm text-muted shadow-md z-50 ${size} 
+            left-[-33px] sm:left-[150%]  top-11 sm:top-3`}
         >
           {content}
         </div>

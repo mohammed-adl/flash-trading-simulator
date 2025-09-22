@@ -16,8 +16,9 @@ let refreshing = null;
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
-      const config = error.config;
+    const config = error.config;
+    if (error.response?.status === 401 && !config._retry) {
+      config._retry = true;
 
       if (!refreshing) {
         refreshing = authService
@@ -29,10 +30,6 @@ api.interceptors.response.use(
               initSocketConnection();
             }
           })
-          .catch((err) => {
-            console.log(err);
-            authService.logout();
-          })
           .finally(() => {
             refreshing = null;
           });
@@ -43,7 +40,8 @@ api.interceptors.response.use(
         const token = localStorage.getItem("token");
         if (token) config.headers["Authorization"] = `Bearer ${token}`;
         return api(config);
-      } catch {
+      } catch (err) {
+        console.log(err);
         authService.logout();
         return Promise.reject(error);
       }

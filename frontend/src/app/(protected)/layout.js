@@ -14,37 +14,44 @@ export default function ProtectedRoute({ children }) {
   const router = useRouter();
   const { username } = useParams();
 
+  async function validateToken() {
+    try {
+      const isExpired = await authService.validateAccessToken();
+      if (isExpired) {
+        const body = await authService.callRefreshToken();
+        console.log("Refreshing token:", body);
+        if (body) authService.setToken(body.token);
+      }
+
+      if (user?.username && user.username !== username) {
+        router.replace(`/${user.username}`);
+        return;
+      }
+
+      initSocketConnection(user);
+    } catch (err) {
+      console.error("Error logging in:", err);
+      authService.logout();
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     if (!user) return;
 
-    const validateToken = async () => {
-      try {
-        const isExpired = await authService.validateAccessToken();
-        if (isExpired) {
-          const body = await authService.callRefreshToken();
-          if (body) authService.setToken(body.token);
-        }
-
-        if (user?.username && user.username !== username) {
-          router.replace(`/${user.username}`);
-          return;
-        }
-
-        initSocketConnection(user);
-      } catch (err) {
-        authService.logout();
-      } finally {
-        setLoading(false);
-      }
-    };
-
     validateToken();
+  }, []);
 
-    return () => disconnectSocket();
-  }, [user, username, router]);
+  useEffect(() => {
+    if (!user) return;
+    if (!socket.connected) return;
 
-  if (loading) return <LoadingScreen />;
+    socket.emit("setWatchlist", { holdings: user.holdings });
+  }, [user?.holdings]);
+
   if (!user) authService.logout();
+  if (loading) return <LoadingScreen />;
 
   return <>{children}</>;
 }
