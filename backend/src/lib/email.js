@@ -35,9 +35,9 @@ export async function sendEmailPasscode({ email, passcode }) {
   const transporter = await getTransporter();
 
   const info = await transporter.sendMail({
-    from: `"X" <${process.env.EMAIL_USER || "no-reply@x.com"}>`,
+    from: `"Flash Trading" <${process.env.EMAIL_USER || "noreply@flash.com"}>`,
     to: email,
-    subject: "Your X Password Reset Code",
+    subject: "Flash Trading - Password Reset Code",
     html: `
       <p>Hello,</p>
       <p>Here is your password reset code:</p>
@@ -45,7 +45,7 @@ export async function sendEmailPasscode({ email, passcode }) {
       <p>This code will expire in 10 minutes.</p>
       <p>If you didn’t request this, you can ignore this email.</p>
       <br />
-      <p>— X Team</p>
+      <p>— Flash Team</p>
     `,
   });
 
