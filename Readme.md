@@ -1,7 +1,7 @@
 # Flash – Trading Simulator
 
 <p align="center">
-  <img src="/frontend/public/main.gif" alt="Main Demo GIF" width="700"/>
+  <img src="/frontend/public/main.gif" alt="Main Demo GIF" width="850"/>
 </p>
 
 A full-stack, real-time trading simulator built with Next.js, Express, Prisma, Tailwind, Redis, and Socket.IO. Flash combines powerful functionality with an intuitive, user-friendly interface, letting users trade stocks, manage portfolios, and track watchlists in real time, while demonstrating scalable architecture and advanced security.
@@ -218,7 +218,7 @@ npx prisma migrate dev
 ## Screenshots / Demo
 
 <p align="center">
-  <img src="/frontend/public/portfolio.PNG" alt="Portfolio Screenshot" width="600"/>
+  <img src="/frontend/public/portfolio.PNG" alt="Portfolio Screenshot" width="750"/>
 </p>
 
 ---

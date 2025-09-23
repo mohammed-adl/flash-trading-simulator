@@ -3,13 +3,7 @@ import { authService } from "@/services";
 
 export const initSocketConnection = (user) => {
   try {
-    console.log("Initializing socket connection...");
     const token = localStorage.getItem("token");
-
-    if (!token) {
-      authService.logout();
-      return;
-    }
 
     socket.auth.token = token;
 
