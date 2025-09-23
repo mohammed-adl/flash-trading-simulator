@@ -12,13 +12,5 @@ export const logOut = asyncHandler(async (req, res) => {
 
   await authService.logOut(userId, refreshToken);
 
-  const path = isProd ? "/api/auth" : "/";
-
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: "none",
-    path,
-  });
   res.status(204).end();
 });

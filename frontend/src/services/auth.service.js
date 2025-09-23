@@ -3,8 +3,9 @@ import { socket } from "@/socket";
 import { handleRefreshToken } from "../fetchers";
 
 const authService = {
-  setToken: (token) => {
+  setTokens: (token, refreshToken) => {
     localStorage.setItem("token", token);
+    localStorage.setItem("refreshToken", refreshToken);
     return token;
   },
 
@@ -26,7 +27,12 @@ const authService = {
 
   callRefreshToken: async () => {
     try {
-      const data = await handleRefreshToken();
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) {
+        authService.logout();
+        return;
+      }
+      const data = await handleRefreshToken(refreshToken);
       return data;
     } catch (err) {
       authService.logout();
@@ -37,6 +43,7 @@ const authService = {
   clearSession: () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
     socket.disconnect();
   },
 

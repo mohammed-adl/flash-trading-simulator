@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
 import { success } from "../../lib/index.js";
-import { REFRESH_TOKEN_MAX_AGE } from "../../config/constants.js";
 import { authService, redisService } from "../../services/index.js";
 import { INITIAL_BALANCE } from "../../config/index.js";
 
@@ -21,22 +20,13 @@ export const signUp = asyncHandler(async (req, res) => {
 
   await authService.saveRefreshToken(user.id, refreshToken, req);
 
-  const path = isProd ? "/api/auth" : "/";
-
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: isProd,
-    sameSite: "Strict",
-    maxAge: REFRESH_TOKEN_MAX_AGE,
-    path: "/",
-  });
-
   await redisService.setTransactions(user.id, INITIAL_BALANCE, "DEPOSIT");
 
   success(
     res,
     {
       token: accessToken,
+      refreshToken,
       user,
     },
     201

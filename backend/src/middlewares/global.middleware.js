@@ -30,8 +30,6 @@ export const authLimiter = rateLimit({
 });
 
 export const registerMiddlewares = (app) => {
-  app.set("trust proxy", 1);
-
   app.use(helmet());
 
   const allowedOrigins = [`${process.env.ORIGIN}`, "http://localhost:3000"];

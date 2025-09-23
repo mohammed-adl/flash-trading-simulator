@@ -1,4 +1,4 @@
-import { reqApi } from "@/lib";
+import { reqApi, refreshApi } from "@/lib/axios";
 
 export async function handleSignUp(formData) {
   return await reqApi("/auth/signup", {
@@ -20,10 +20,11 @@ export async function handleLogOut() {
   });
 }
 
-export async function handleRefreshToken() {
-  return await reqApi("/auth/refresh-token", {
-    method: "POST",
+export async function handleRefreshToken(refreshToken) {
+  const response = await refreshApi.post("/auth/refresh-token", {
+    refreshToken: refreshToken,
   });
+  return response.data;
 }
 
 export async function handleSendPasscode(formData) {

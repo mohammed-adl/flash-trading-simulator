@@ -38,7 +38,8 @@ export default function Login() {
 
     try {
       const body = await handleLogIn(values);
-      authService.setToken(body.token);
+      console.log("body", body);
+      authService.setTokens(body.token, body.refreshToken);
       setUser(body.user);
 
       router.push(`/${body.user.username}`);

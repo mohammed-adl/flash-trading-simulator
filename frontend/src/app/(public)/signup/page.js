@@ -42,7 +42,7 @@ export default function Signup() {
 
     try {
       const body = await handleSignUp(values);
-      authService.setToken(body.token);
+      authService.setTokens(body.token, body.refreshToken);
       setHasNotifications(true);
       setUser(body.user);
 

@@ -11,6 +11,11 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
+export const refreshApi = axios.create({
+  withCredentials: true,
+  baseURL: API_URL,
+});
+
 let refreshing = null;
 
 api.interceptors.response.use(
@@ -21,18 +26,21 @@ api.interceptors.response.use(
       config._retry = true;
 
       if (!refreshing) {
-        refreshing = authService
-          .callRefreshToken()
-          .then((body) => {
-            authService.setToken(body.token);
+        refreshing = (async () => {
+          try {
+            const body = await authService.callRefreshToken();
+            authService.setTokens(body.token, body.refreshToken);
             if (socket?.connected) {
               socket.disconnect();
               initSocketConnection();
             }
-          })
-          .finally(() => {
+          } catch (err) {
+            authService.logout();
+            throw err;
+          } finally {
             refreshing = null;
-          });
+          }
+        })();
       }
 
       try {
@@ -41,8 +49,6 @@ api.interceptors.response.use(
         if (token) config.headers["Authorization"] = `Bearer ${token}`;
         return api(config);
       } catch (err) {
-        console.log(err);
-        authService.logout();
         return Promise.reject(error);
       }
     }

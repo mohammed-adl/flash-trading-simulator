@@ -1,8 +1,7 @@
 import asyncHandler from "express-async-handler";
 
-import { authService, notificationService } from "../../services/index.js";
-import { success, fail, prisma } from "../../lib/index.js";
-import { REFRESH_TOKEN_MAX_AGE } from "../../config/constants.js";
+import { authService } from "../../services/index.js";
+import { success, fail } from "../../lib/index.js";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -20,18 +19,11 @@ export const logIn = asyncHandler(async (req, res) => {
     id: user.id,
   });
 
-  await authService.saveRefreshToken(user.id, refreshToken, req);
-
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: isProd,
-    maxAge: REFRESH_TOKEN_MAX_AGE,
-    sameSite: "none",
-    path: "/",
-  });
+  await authService.saveRefreshToken(user.id, refreshToken);
 
   success(res, {
     token: accessToken,
+    refreshToken,
     user,
   });
 });

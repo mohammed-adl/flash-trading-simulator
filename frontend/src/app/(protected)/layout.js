@@ -6,7 +6,7 @@ import { useRouter, useParams } from "next/navigation";
 import { LoadingScreen } from "@/components/ui";
 import { useUser } from "@/contexts";
 import { authService } from "@/services";
-import { initSocketConnection, disconnectSocket } from "@/socket";
+import { initSocketConnection, socket, disconnectSocket } from "@/socket";
 
 export default function ProtectedRoute({ children }) {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ export default function ProtectedRoute({ children }) {
       if (isExpired) {
         const body = await authService.callRefreshToken();
         console.log("Refreshing token:", body);
-        if (body) authService.setToken(body.token);
+        if (body) authService.setTokens(body.token, body.refreshToken);
       }
 
       if (user?.username && user.username !== username) {
@@ -41,6 +41,10 @@ export default function ProtectedRoute({ children }) {
     if (!user) return;
 
     validateToken();
+
+    return () => {
+      disconnectSocket();
+    };
   }, []);
 
   useEffect(() => {
