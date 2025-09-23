@@ -218,7 +218,7 @@ npx prisma migrate dev
 ## Screenshots / Demo
 
 <p align="center">
-  <img src="/frontend/public/portfolio.PNG" alt="Portfolio Screenshot" width="750"/>
+  <img src="/frontend/public/portfolio.PNG" alt="Portfolio Screenshot" width="800"/>
 </p>
 
 ---

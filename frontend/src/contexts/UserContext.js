@@ -26,7 +26,8 @@ export function UserProvider({ children }) {
     function handleStorageChange(event) {
       if (
         (event.key === "user" && event.newValue === null) ||
-        (event.key === "token" && event.newValue === null)
+        (event.key === "token" && event.newValue === null) ||
+        (event.key === "refreshToken" && event.newValue === null)
       ) {
         authService.logout();
       }

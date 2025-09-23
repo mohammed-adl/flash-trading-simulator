@@ -73,7 +73,7 @@ const redisService = {
   // ------------------ High-Level Functions ------------------
   setPositions: async (userId, symbol, positionData) => {
     const key = KEYS.positions(userId);
-    let positions = await redisService.getPositions(userId); // current positions
+    let positions = await redisService.getPositions(userId);
 
     if (positionData === null) {
       delete positions[symbol];
@@ -81,9 +81,7 @@ const redisService = {
       positions[symbol] = positionData;
     }
 
-    console.log("Positions to store in Redis:", positions); // <-- BEFORE storing
     await redisService.set(key, positions);
-    console.log("Positions stored under key:", key); // <-- AFTER storing
 
     return positions;
   },
