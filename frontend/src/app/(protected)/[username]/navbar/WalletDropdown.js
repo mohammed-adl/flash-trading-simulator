@@ -71,7 +71,7 @@ export default function WalletDropdown({ onSelect, username }) {
       </button>
 
       {open && (
-        <div className="absolute left-3 top-6 sm:left-30 mt-2 w-65 bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
+        <div className="absolute left-3 top-6 sm:top-4 sm:left-23 mt-2 w-65 bg-card border border-border rounded-xl shadow-lg z-50 overflow-hidden">
           <div className="p-2">
             <div className="flex items-center gap-2 px-2 py-2 rounded">
               <SearchIcon className="w-4 h-4 text-foreground" />

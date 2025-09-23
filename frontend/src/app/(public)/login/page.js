@@ -38,7 +38,6 @@ export default function Login() {
 
     try {
       const body = await handleLogIn(values);
-      console.log("body", body);
       authService.setTokens(body.token, body.refreshToken);
       setUser(body.user);
 

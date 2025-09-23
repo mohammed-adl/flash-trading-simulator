@@ -96,8 +96,6 @@ export const buyStock = asyncHandler(async (req, res) => {
     avgPrice: result.holding.avgPrice,
   });
 
-  console.log(result.holding);
-
   return success(res, {
     user: result.user,
     holding: result.holding,

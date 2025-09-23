@@ -19,7 +19,6 @@ export default function ProtectedRoute({ children }) {
       const isExpired = await authService.validateAccessToken();
       if (isExpired) {
         const body = await authService.callRefreshToken();
-        console.log("Refreshing token:", body);
         if (body) authService.setTokens(body.token, body.refreshToken);
       }
 

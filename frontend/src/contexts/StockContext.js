@@ -11,7 +11,6 @@ export function StockProvider({ children }) {
 
   useEffect(() => {
     socket.on("stockUpdate", (data) => {
-      console.log("data", data);
       setStocksPrices(data);
     });
 
