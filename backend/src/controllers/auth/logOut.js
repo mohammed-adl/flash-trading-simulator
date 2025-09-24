@@ -2,8 +2,6 @@ import asyncHandler from "express-async-handler";
 import { success, fail } from "../../lib/index.js";
 import { authService } from "../../services/index.js";
 
-const isProd = process.env.NODE_ENV === "production";
-
 export const logOut = asyncHandler(async (req, res) => {
   const userId = req.user.id;
 

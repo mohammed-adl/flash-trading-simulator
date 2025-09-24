@@ -23,7 +23,8 @@ export default function UserMenu() {
 
   async function logout() {
     try {
-      await handleLogOut();
+      const refreshToken = localStorage.getItem("refreshToken");
+      await handleLogOut(refreshToken);
       await authService.logout();
     } catch (error) {
       console.error("Logout error:", error.message);
