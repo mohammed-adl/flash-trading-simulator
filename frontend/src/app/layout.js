@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Metadata } from "next";
 
 import Providers from "./Providers";
 import SplashWrapper from "@/components/SplashWrapper";
@@ -16,9 +17,24 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "Flash",
-  description: "Stock simulator with real-time market data",
+  description:
+    "Step into the stock market with Flash: real-time trading, watchlists, and portfolio tracking, all risk-free.",
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
+  openGraph: {
+    title: "Flash",
+    description:
+      "Step into the stock market with Flash: real-time trading, watchlists, and portfolio tracking, all risk-free.",
+    url: "https:/flash-sim.vercel.app",
+    siteName: "Flash",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Flash",
+    description:
+      "Step into the stock market with Flash: real-time trading, watchlists, and portfolio tracking, all risk-free.",
   },
 };
 
