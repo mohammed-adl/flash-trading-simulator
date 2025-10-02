@@ -53,18 +53,17 @@ export default function Signup() {
   }
 
   return (
-    <div className="w-full min-h-screen">
-      <div className="w-full mt-6 flex justify-between">
-        <Brand className="ml-50" />
+    <div className="relative min-h-screen flex flex-col bg-background text-foreground px-4 sm:px-6">
+      <div className="w-full mt-6 flex justify-between items-center px-4">
+        <Brand className="ml-0 sm:ml-50" />
         <Button
-          className="h-10 px-3 text-base font-semibold bg-black border border-border text-bg mr-50 transition-colors hover:bg-border text-sm"
-          onClick={() => {
-            router.push("/login");
-          }}
+          className="h-10 px-3  mr-0 sm:mr-50 text-lg font-semibold bg-background border border-border text-bg transition-colors hover:bg-border cursor-pointer rounded-lg text-sm"
+          onClick={() => router.push("/login")}
         >
           Log In
         </Button>
       </div>
+
       <div className="min-h-screen flex flex-col items-center justify-start bg-background text-foreground px-4 sm:px-6 pt-20 sm:pt-22">
         <div className="w-full max-w-md p-9 sm:p-12 rounded-2xl  shadow-md">
           <div className="flex flex-col items-center space-y-1.5 mb-5 sm:mb-6 text-center">
