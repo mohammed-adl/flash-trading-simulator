@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    /* Output */
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* Language & Module Settings */
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+
+    /* Type Definitions */
+    "types": ["node", "express"],
+
+    /* Debugging */
+    "sourceMap": true,
+
+    /* Strictness */
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
