@@ -66,6 +66,17 @@ Live Demo: [https://flash-sim.vercel.app](https://flash-sim.vercel.app)
 
 ---
 
+## Tech Stack
+
+- **Frontend:** Next.js (TypeScript), Tailwind CSS
+- **Backend:** Express.js (TypeScript), Prisma ORM
+- **Realtime / Data:** Socket.IO, Yahoo Finance API
+- **Caching:** Redis
+- **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
+- **Deployment:** Render (backend), Vercel (frontend)
+
+---
+
 ## Architecture & Project Structure
 
 ```text
@@ -192,17 +203,6 @@ npx prisma migrate dev
 - Ensure Redis and PostgreSQL are running before starting the backend.
 - The frontend supports hot-reloading — changes appear instantly in the browser.
 - Passwords are hashed with bcrypt, and authentication is handled via JWT.
-
----
-
-## Tech Stack
-
-- **Frontend:** Next.js, Tailwind CSS
-- **Backend:** Express.js, Prisma ORM
-- **Realtime / Data:** Socket.IO, Yahoo Finance API
-- **Caching:** Redis
-- **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
-- **Deployment:** Render (backend), Vercel (frontend)
 
 ---
 
