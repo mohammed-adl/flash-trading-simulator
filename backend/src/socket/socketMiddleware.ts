@@ -1,6 +1,7 @@
+import { Socket } from "socket.io";
 import { validateBodyToken } from "../middlewares/index.js";
 
-function setupAuthMiddleware(socket, next) {
+function setupAuthMiddleware(socket: Socket, next: (err?: Error) => void) {
   const { token } = socket.handshake.auth;
 
   try {

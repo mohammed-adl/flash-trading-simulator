@@ -25,7 +25,6 @@ const authService = {
                 data: {
                     email: data.email,
                     password: hashedPassword,
-                    name: data.name,
                     username: data.username,
                     hasNotifications: true,
                 },
@@ -194,6 +193,9 @@ const authService = {
             where: { id: userId },
             select: { password: true },
         });
+        if (!user) {
+            throw new AppError("User not found", 404);
+        }
         const isOldPassword = await bcrypt.compare(newPassword, user.password);
         if (isOldPassword) {
             throw new AppError("You can't choose the same old password", 400);

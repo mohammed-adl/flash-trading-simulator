@@ -1,11 +1,10 @@
 import asyncHandler from "express-async-handler";
+import { Request, Response } from "express";
 import { success } from "../../lib/index.js";
 import { authService, redisService } from "../../services/index.js";
 import { INITIAL_BALANCE } from "../../config/index.js";
 
-const isProd = process.env.NODE_ENV === "production";
-
-export const signUp = asyncHandler(async (req, res) => {
+export const signUp = asyncHandler(async (req: Request, res: Response) => {
   const { ...formData } = req.body;
 
   const user = await authService.createUser(formData);
@@ -18,7 +17,7 @@ export const signUp = asyncHandler(async (req, res) => {
     id: user.id,
   });
 
-  await authService.saveRefreshToken(user.id, refreshToken, req);
+  await authService.saveRefreshToken(user.id, refreshToken);
 
   await redisService.setTransactions(user.id, INITIAL_BALANCE, "DEPOSIT");
 

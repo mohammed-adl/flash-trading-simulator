@@ -16,8 +16,8 @@ export const sellStock = asyncHandler(async (req, res) => {
   const { quantity } = req.body;
 
   const stockData = await fetchPrice(symbol);
-  const currentPrice = stockData.price;
-  const stockName = stockData.name;
+  const currentPrice = stockData.price || 0;
+  const stockName = stockData.name || "";
 
   const result = await prisma.$transaction(async (tx) => {
     const holding = await tx.holding.findUnique({
@@ -31,7 +31,7 @@ export const sellStock = asyncHandler(async (req, res) => {
     if (quantity > existingQty)
       throw new fail("Cannot sell more than you own", 400);
 
-    const profits = (currentPrice - holding.avgPrice) * quantity;
+    const profits = (currentPrice - Number(holding.avgPrice)) * quantity;
     const totalGain = currentPrice * quantity;
 
     let remainingQty = existingQty - quantity;

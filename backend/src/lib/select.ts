@@ -9,7 +9,7 @@ export const userSelect = {
   initialBalance: true,
 
   holdings: {
-    orderBy: { updatedAt: "desc" },
+    orderBy: { updatedAt: "desc" as const },
     select: {
       symbol: true,
       name: true,
@@ -24,7 +24,7 @@ export const userSelect = {
       trades: true,
     },
   },
-};
+} as const;
 
 export const tradeSelect = {
   id: true,
@@ -34,11 +34,11 @@ export const tradeSelect = {
   price: true,
   createdAt: true,
   profit: true,
-};
+} as const;
 
 export const transactionSelect = {
   id: true,
   type: true,
   amount: true,
   createdAt: true,
-};
+} as const;

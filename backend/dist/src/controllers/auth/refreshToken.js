@@ -2,7 +2,6 @@ import asyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
 import { prisma, success, fail, userSelect } from "../../lib/index.js";
 import { authService } from "../../services/index.js";
-const isProd = process.env.NODE_ENV === "production";
 export const refreshToken = asyncHandler(async (req, res) => {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken)
@@ -25,7 +24,7 @@ export const refreshToken = asyncHandler(async (req, res) => {
     if (!validToken)
         fail("Invalid refresh token", 401);
     await prisma.refreshToken.delete({
-        where: { id: validToken.id },
+        where: { id: validToken?.id },
     });
     const user = await prisma.user.findUnique({
         where: { id: payload.id },

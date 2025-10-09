@@ -1,25 +1,38 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 import { AppError } from "../utils/index.js";
 import { prisma, redis, sendEmailPasscode, userSelect } from "../lib/index.js";
-
 import { generatePasscode } from "../utils/index.js";
-
 import {
   ACCESS_TOKEN_EXPIRY,
   REFRESH_TOKEN_EXPIRY,
   REFRESH_TOKEN_MAX_AGE,
 } from "../config/constants.js";
 
-const ACCESS_SECRET = process.env.ACCESS_SECRET;
-const REFRESH_SECRET = process.env.REFRESH_SECRET;
+const ACCESS_SECRET = process.env.ACCESS_SECRET!;
+const REFRESH_SECRET = process.env.REFRESH_SECRET!;
 const isProd = process.env.NODE_ENV === "production";
+
+// Types
+interface CreateUserData {
+  email: string;
+  password: string;
+  name: string;
+  username: string;
+}
+
+interface JWTPayload {
+  id: string;
+  [key: string]: any;
+}
+
 
 const authService = {
   // ==============================================
   // User CREATION
   // ==============================================
-  async createUser(data) {
+  async createUser(data: CreateUserData) {
     const userExists = await prisma.user.findUnique({
       where: { email: data.email },
       select: { id: true },
@@ -35,7 +48,6 @@ const authService = {
         data: {
           email: data.email,
           password: hashedPassword,
-          name: data.name,
           username: data.username,
           hasNotifications: true,
         },
@@ -60,7 +72,7 @@ const authService = {
   // ==============================================
   // AUTHENTICATION
   // ==============================================
-  async logIn(email, password) {
+  async logIn(email: string, password: string) {
     const user = await prisma.user.findUnique({
       where: { email },
       select: { ...userSelect, password: true },
@@ -74,11 +86,11 @@ const authService = {
     if (!isPasswordCorrect) {
       throw new AppError("Incorrect username or password", 400);
     }
-    delete user.password;
+    delete (user as any).password;
     return user;
   },
 
-  async logOut(userId, refreshToken) {
+  async logOut(userId: string, refreshToken: string): Promise<void> {
     const tokens = await prisma.refreshToken.findMany({
       where: {
         userId,
@@ -90,7 +102,7 @@ const authService = {
       throw new AppError("No refresh token found", 400);
     }
 
-    let validToken = null;
+  let validToken: typeof tokens[0] | null = null;
     for (const token of tokens) {
       const isValid = await bcrypt.compare(refreshToken, token.token);
       if (isValid) {
@@ -111,7 +123,7 @@ const authService = {
   // ==============================================
   // TOKEN HELPERS
   // ==============================================
-  async saveRefreshToken(userId, refreshToken) {
+  async saveRefreshToken(userId: string, refreshToken: string): Promise<string> {
     const hashedToken = await bcrypt.hash(refreshToken, 10);
 
     const token = await prisma.refreshToken.create({
@@ -126,9 +138,9 @@ const authService = {
     return token.id;
   },
 
-  async verifyRefreshToken(token) {
+  async verifyRefreshToken(token: string): Promise<JWTPayload> {
     try {
-      const payload = jwt.verify(token, REFRESH_SECRET);
+      const payload = jwt.verify(token, REFRESH_SECRET) as JWTPayload;
 
       const storedToken = await prisma.refreshToken.findFirst({
         where: {
@@ -152,13 +164,13 @@ const authService = {
     }
   },
 
-  generateAccessToken(payload) {
+  generateAccessToken(payload: JWTPayload): string {
     return jwt.sign(payload, ACCESS_SECRET, {
       expiresIn: `${ACCESS_TOKEN_EXPIRY}`,
     });
   },
 
-  generateRefreshToken(payload) {
+  generateRefreshToken(payload: JWTPayload): string {
     return jwt.sign(payload, REFRESH_SECRET, {
       expiresIn: `${REFRESH_TOKEN_EXPIRY}`,
     });
@@ -167,7 +179,7 @@ const authService = {
   // ==============================================
   // PASSWORD RECOVERY
   // ==============================================
-  async sendPasscode(email) {
+  async sendPasscode(email: string) {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -190,7 +202,7 @@ const authService = {
     return updatedUser;
   },
 
-  async verifyPasscode(email, passcode) {
+  async verifyPasscode(email: string, passcode: string): Promise<void> {
     const user = await prisma.user.findUnique({
       where: { email },
       select: { email: true, passcode: true, passcodeExpiresAt: true },
@@ -207,7 +219,7 @@ const authService = {
     }
   },
 
-  async resetPassword(email, newPassword) {
+  async resetPassword(email: string, newPassword: string): Promise<void> {
     const user = await prisma.user.findUnique({ where: { email } });
 
     if (!user) {
@@ -231,13 +243,17 @@ const authService = {
     });
   },
 
-  async updatePassword(req, newPassword) {
+  async updatePassword(req, newPassword: string): Promise<void> {
     const userId = req.user.id;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { password: true },
     });
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
 
     const isOldPassword = await bcrypt.compare(newPassword, user.password);
 

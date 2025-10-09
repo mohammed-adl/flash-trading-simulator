@@ -1,13 +1,19 @@
 import { fetchUserPositions, buildWatchlistData } from "./stockService.js";
 import { PRICES_UPDATE_INTERVAL } from "../config/constants.js";
+import { Server, Socket } from "socket.io";
 
-export function handleConnection(io, socket) {
+interface Holding {
+  symbol: string;
+  [key: string]: any;
+}
+
+export function handleConnection(io: Server, socket: Socket) {
   console.log("Client connected");
 
-  let clientWatchlist = [];
-  let userPositions = {};
+  let clientWatchlist: string[] = [];
+  let userPositions: any = {};
 
-  socket.join(socket.userId);
+  socket.join(socket.userId!);
 
   async function updateClientWatchlist() {
     const watchlistData = await buildWatchlistData(
@@ -15,12 +21,12 @@ export function handleConnection(io, socket) {
       userPositions
     );
 
-    io.to(socket.userId).emit("stockUpdate", watchlistData);
+    io.to(socket.userId!).emit("stockUpdate", watchlistData);
   }
 
-  socket.on("setWatchlist", async ({ holdings }) => {
+  socket.on("setWatchlist", async ({ holdings }: { holdings: Holding[] }) => {
     clientWatchlist = holdings.map((item) => item.symbol);
-    userPositions = await fetchUserPositions(socket.userId);
+    userPositions = await fetchUserPositions(socket.userId!);
 
     console.log("Client connected with watchlist socket id", socket.id);
     await updateClientWatchlist();
