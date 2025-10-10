@@ -39,8 +39,7 @@ export const resetProfile = asyncHandler(async (req, res) => {
         totalDeposits: INITIAL_BALANCE,
         totalWithdrawals: 0,
     });
-    await notificationService.createReset(userId);
-    notificationService.sendToUser(userId);
+    notificationService.createReset(userId);
     return success(res, { user: result.user });
 });
 //# sourceMappingURL=resetProfile.js.map

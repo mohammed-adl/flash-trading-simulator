@@ -17,9 +17,6 @@
   --color-error: var(--error);
   --color-up: var(--up);
   --color-down: var(--down);
-  --font-geist-sans: "Geist Sans", sans-serif;
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
   --font-audiowide: "Audiowide", sans-serif;
   --font-orbitron: "Orbitron", sans-serif;
 }
