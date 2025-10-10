@@ -29,7 +29,7 @@ export const sellStock = asyncHandler(async (req, res) => {
 
     const existingQty = Number(holding.quantity);
     if (quantity > existingQty)
-      throw new fail("Cannot sell more than you own", 400);
+      return fail("Cannot sell more than you own", 400);
 
     const profits = (currentPrice - Number(holding.avgPrice)) * quantity;
     const totalGain = currentPrice * quantity;

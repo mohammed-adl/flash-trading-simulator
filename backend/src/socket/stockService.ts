@@ -50,7 +50,7 @@ async function watchMilestone(userPositions: UserPositions, userId: string) {
       const direction = pnlPercent > 0 ? "profit" : "loss";
 
       try {
-        await notificationService.createWarning(userId, pos.symbol, direction);
+        await notificationService.createWarning({userId, symbol:pos.symbol, direction});
       } catch (err: any) {
         console.error("Error sending milestone notification:", err.message);
       }

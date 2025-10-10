@@ -9,10 +9,10 @@ export async function fetchStockPrice(symbol) {
     if (!marketWatchlist.has(symbol))
         marketWatchlist.add(symbol);
     try {
-        const quote = await yahooFinance.quote(symbol);
+        const quote = await yahooFinance.quote(symbol); // Add symbol here
         stockCache.set(symbol, {
-            name: quote.shortName,
-            price: quote.regularMarketPrice,
+            name: quote.shortName || "",
+            price: quote.regularMarketPrice || 0,
         });
     }
     catch (err) {
@@ -27,7 +27,7 @@ async function watchMilestone(userPositions, userId) {
         if (pnlPercent >= 5 || pnlPercent <= -5) {
             const direction = pnlPercent > 0 ? "profit" : "loss";
             try {
-                await notificationService.createWarning(userId, pos.symbol, direction);
+                await notificationService.createWarning({ userId, symbol: pos.symbol, direction });
             }
             catch (err) {
                 console.error("Error sending milestone notification:", err.message);

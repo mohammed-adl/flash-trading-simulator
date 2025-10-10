@@ -18,7 +18,7 @@ export const withdraw = asyncHandler(async (req, res) => {
     select: { balance: true },
   });
 
-  if (userBalance.balance < amount)
+  if (userBalance!.balance < amount)
     return fail("You don't have enough balance", 400);
 
   const result = await prisma.$transaction(async (tx) => {

@@ -6,14 +6,14 @@ export const buyStock = asyncHandler(async (req, res) => {
     const symbol = req.params.symbol;
     const { quantity } = req.body;
     const stockData = await fetchPrice(symbol);
-    const currentPrice = stockData.price;
-    const stockName = stockData.name;
+    const currentPrice = stockData.price || 0;
+    const stockName = stockData.name || "";
     const userBalance = await prisma.user.findUnique({
         where: { id: userId },
         select: { balance: true },
     });
     const totalCost = currentPrice * quantity;
-    if (totalCost > userBalance.balance)
+    if (Number(totalCost) > Number(userBalance.balance))
         return fail("Insufficient balance", 400);
     const result = await prisma.$transaction(async (tx) => {
         const holdingExist = await tx.holding.findUnique({

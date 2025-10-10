@@ -13,12 +13,10 @@ const redisService = {
     // ------------------ Core Helpers ------------------
     set: async (key, value, expireSeconds) => {
         const data = typeof value === "string" ? value : JSON.stringify(value);
-        if (expireSeconds) {
-            await redis.setEx(key, expireSeconds, data);
-        }
-        else {
+        if (expireSeconds)
+            await redis.setex(key, expireSeconds, data);
+        else
             await redis.set(key, data);
-        }
     },
     get: async (key) => {
         const data = await redis.get(key);
@@ -35,21 +33,34 @@ const redisService = {
         await redis.del(key);
     },
     incrBy: async (key, amount = 1) => {
-        return await redis.incrBy(key, amount);
+        return await redis.incrby(key, amount);
     },
     exists: async (key) => {
-        const result = await redis.exists(key);
-        return result === 1;
+        return (await redis.exists(key)) === 1;
     },
     // ------------------ Helper Getters ------------------
     getTransactions: async (userId) => {
-        return (await redisService.get(KEYS.transactions(userId))) || {};
+        return (await redisService.get(KEYS.transactions(userId))) || { totalDeposits: 0, totalWithdrawals: 0 };
     },
     getMonthlyRealizedPnL: async (userId) => {
         return (await redisService.get(KEYS.monthlyRealizedPnL(userId))) || {};
     },
     getTradeStats: async (userId) => {
-        return (await redisService.get(KEYS.tradeStats(userId))) || {};
+        return ((await redisService.get(KEYS.tradeStats(userId))) || {
+            totalTrades: 0,
+            winningTrades: 0,
+            losingTrades: 0,
+            realizedPnL: 0,
+            avgPnl: 0,
+            largestWin: 0,
+            largestLoss: 0,
+            avgWin: 0,
+            avgLoss: 0,
+            winRate: 0,
+            lastTrade: null,
+            totalSharesTraded: 0,
+            lastUpdated: null,
+        });
     },
     getPositions: async (userId) => {
         return (await redisService.get(KEYS.positions(userId))) || {};
@@ -76,40 +87,19 @@ const redisService = {
     setStats: async (userId, trade) => {
         const key = KEYS.tradeStats(userId);
         let stats = await redisService.getTradeStats(userId);
-        stats = Object.keys(stats).length
-            ? stats
-            : {
-                totalTrades: 0,
-                winningTrades: 0,
-                losingTrades: 0,
-                realizedPnL: 0,
-                avgPnl: 0,
-                largestWin: 0,
-                largestLoss: 0,
-                avgWin: 0,
-                avgLoss: 0,
-                winRate: 0,
-                lastTrade: null,
-                totalSharesTraded: 0,
-                lastUpdated: null,
-            };
         const profit = Number(trade.profit ?? 0);
         stats.totalTrades += 1;
         stats.realizedPnL += profit;
         stats.totalSharesTraded += Number(trade.quantity);
         if (profit > 0) {
             stats.winningTrades += 1;
-            stats.avgWin =
-                (stats.avgWin * (stats.winningTrades - 1) + profit) /
-                    stats.winningTrades;
+            stats.avgWin = (stats.avgWin * (stats.winningTrades - 1) + profit) / stats.winningTrades;
             if (profit > stats.largestWin)
                 stats.largestWin = profit;
         }
         else {
             stats.losingTrades += 1;
-            stats.avgLoss =
-                (stats.avgLoss * (stats.losingTrades - 1) + profit) /
-                    stats.losingTrades;
+            stats.avgLoss = (stats.avgLoss * (stats.losingTrades - 1) + profit) / stats.losingTrades;
             if (profit < stats.largestLoss)
                 stats.largestLoss = profit;
         }
@@ -138,13 +128,10 @@ const redisService = {
     setTransactions: async (userId, amount, type) => {
         const key = KEYS.transactions(userId);
         let transactions = await redisService.getTransactions(userId);
-        if (type === "DEPOSIT") {
-            transactions.totalDeposits = (transactions.totalDeposits || 0) + amount;
-        }
-        else if (type === "WITHDRAWAL") {
-            transactions.totalWithdrawals =
-                (transactions.totalWithdrawals || 0) + amount;
-        }
+        if (type === "DEPOSIT")
+            transactions.totalDeposits += amount;
+        else if (type === "WITHDRAWAL")
+            transactions.totalWithdrawals += amount;
         await redisService.set(key, transactions);
         return transactions;
     },
@@ -153,7 +140,7 @@ const redisService = {
         let dailyTrades = await redisService.getDailyTrades(userId);
         dailyTrades[day] = (dailyTrades[day] || 0) + tradesCount;
         const last7Days = Object.keys(dailyTrades)
-            .sort((a, b) => new Date(a) - new Date(b))
+            .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
             .slice(-7)
             .reduce((acc, k) => {
             acc[k] = dailyTrades[k];
