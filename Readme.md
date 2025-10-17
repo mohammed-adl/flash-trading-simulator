@@ -4,7 +4,7 @@
 ![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express)
 ![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-D82C20?style=flat&logo=redis)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=flat&logo=socketdotio)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-28A745?style=flat&logo=socketdotio&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 
@@ -265,3 +265,10 @@ npx prisma migrate dev
 - **Monitoring & Logging:** Implement comprehensive logging and monitoring for both backend and frontend to track errors and performance.
 - **Testing:** Add unit and end-to-end tests to ensure stability and catch edge cases before they reach users.
 - **Advanced AI Features:** Enhance the AI assistant with function calling to execute trades, access historical data, and provide deeper market analysis.
+
+---
+
+## License
+
+This project is licensed under the MIT License.  
+See the [LICENSE](./LICENSE) file for details.
