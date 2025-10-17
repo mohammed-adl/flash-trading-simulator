@@ -23,7 +23,7 @@ export default function StockView() {
 
   const lastActiveSymbol = user.holdings[0]?.symbol;
 
-  const validSymbol = selectedSymbol || lastActiveSymbol || "AMZN";
+  const validSymbol = selectedSymbol || lastActiveSymbol;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["stockData", selectedSymbol, range],
@@ -37,6 +37,7 @@ export default function StockView() {
         throw err;
       }
     },
+    enabled: !!validSymbol,
     retry: 1,
   });
 
