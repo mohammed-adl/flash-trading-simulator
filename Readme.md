@@ -1,12 +1,37 @@
-# Flash – Trading Simulator
+# ⚡ Flash – Real-Time Trading Simulator
+
+![Next.js](https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next.js)
+![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express)
+![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-D82C20?style=flat&logo=redis)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=flat&logo=socketdotio)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+
+> 🚀 **Flash** is a full-stack, real-time trading simulator built for performance, scale, and clean UX.  
+> Trade live stock data, manage portfolios, and analyze performance with AI-powered insights — all in one seamless platform.
 
 <p align="center">
-  <img src="/frontend/public/main.gif" alt="Main Demo GIF" width="850"/>
+  <img src="/frontend/public/main.gif" alt="Live Trading Demo" width="850"/>
 </p>
 
-A full-stack, real-time trading simulator built with Next.js, Express, Prisma, Tailwind, Redis, and Socket.IO. Flash combines powerful functionality with an intuitive, user-friendly interface, letting users trade stocks, manage portfolios, and track watchlists in real time, while demonstrating scalable architecture and advanced security.
+**Live Demo:** [https://flash-sim.vercel.app](https://flash-sim.vercel.app)
 
-Live Demo: [https://flash-sim.vercel.app](https://flash-sim.vercel.app)
+---
+
+## 🧩 Overview
+
+Flash combines a modern, real-time frontend with a robust, scalable backend.  
+It’s designed to demonstrate production-ready architecture, advanced caching, and real-time synchronization — all while providing an intuitive trading experience.
+
+**Core Highlights**
+
+- ⚡ Real-time stock trading and portfolio updates
+- 💬 AI assistant integrated with your live holdings
+- 🧠 Global data caching system (Redis + Yahoo Finance API)
+- 🔐 Secure authentication with JWT, Zod, bcrypt
+- 📊 Clean, responsive UI with notifications and analytics
+- 🧱 Modular architecture built for scalability
 
 ---
 

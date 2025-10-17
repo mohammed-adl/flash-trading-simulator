@@ -9,7 +9,7 @@ export async function fetchStockPrice(symbol) {
     if (!marketWatchlist.has(symbol))
         marketWatchlist.add(symbol);
     try {
-        const quote = await yahooFinance.quote(symbol); // Add symbol here
+        const quote = await yahooFinance.quote(symbol);
         stockCache.set(symbol, {
             name: quote.shortName || "",
             price: quote.regularMarketPrice || 0,
