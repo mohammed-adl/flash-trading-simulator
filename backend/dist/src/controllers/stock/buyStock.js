@@ -29,7 +29,7 @@ export const buyStock = asyncHandler(async (req, res) => {
         }
         else {
             const existingQty = Number(holdingExist.quantity);
-            const newAvgPrice = (holdingExist.avgPrice * existingQty + currentPrice * quantity) /
+            const newAvgPrice = (Number(holdingExist.avgPrice) * existingQty + currentPrice * quantity) /
                 (existingQty + quantity);
             newHoldingData = {
                 quantity: existingQty + quantity,

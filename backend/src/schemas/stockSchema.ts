@@ -11,39 +11,27 @@ export const symbolSchema = z.object({
 
 export const buyStockBodySchema = z.object({
   quantity: z
-    .number({
-      required_error: "Quantity is required",
-      invalid_type_error: "Quantity must be a number",
-    })
+    .number()
     .int({ message: "Quantity must be an integer" })
     .positive({ message: "Quantity must be greater than 0" }),
 });
 
 export const sellStockBodySchema = z.object({
   quantity: z
-    .number({
-      required_error: "Quantity is required",
-      invalid_type_error: "Quantity must be a number",
-    })
+    .number()
     .int({ message: "Quantity must be an integer" })
     .positive({ message: "Quantity must be greater than 0" }),
 });
 
 export const depositBodySchema = z.object({
   amount: z
-    .number({
-      required_error: "Amount is required",
-      invalid_type_error: "Amount must be a number",
-    })
+    .number()
     .positive({ message: "Amount must be greater than 0" }),
 });
 
 export const withdrawBodySchema = z.object({
   amount: z
-    .number({
-      required_error: "Amount is required",
-      invalid_type_error: "Amount must be a number",
-    })
+    .number()
     .positive({ message: "Amount must be greater than 0" }),
 });
 

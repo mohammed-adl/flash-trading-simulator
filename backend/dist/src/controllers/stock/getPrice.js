@@ -3,8 +3,8 @@ import { success, fail, fetchPrice } from "../../lib/index.js";
 import { stockCache, marketWatchlist } from "../../socket/index.js";
 export const getPrice = asyncHandler(async (req, res) => {
     const { symbol } = req.params;
-    let price;
-    let name;
+    let price = 0;
+    let name = "";
     const cached = stockCache.get(symbol);
     if (cached) {
         price = cached.price;

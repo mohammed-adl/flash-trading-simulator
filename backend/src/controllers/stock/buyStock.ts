@@ -22,10 +22,10 @@ export const buyStock = asyncHandler(async (req, res) => {
   const userBalance = await prisma.user.findUnique({
     where: { id: userId },
     select: { balance: true },
-  });
+  }) 
 
   const totalCost = currentPrice * quantity;
-  if (Number(totalCost) > Number(userBalance.balance)) return fail("Insufficient balance", 400);
+  if (Number(totalCost) > Number(userBalance!.balance)) return fail("Insufficient balance", 400);
 
   const result = await prisma.$transaction(async (tx) => {
     const holdingExist = await tx.holding.findUnique({
@@ -42,7 +42,7 @@ export const buyStock = asyncHandler(async (req, res) => {
     } else {
       const existingQty = Number(holdingExist.quantity);
       const newAvgPrice =
-        (holdingExist.avgPrice * existingQty + currentPrice * quantity) /
+        (Number(holdingExist.avgPrice) * existingQty + currentPrice * quantity) /
         (existingQty + quantity);
 
       newHoldingData = {
