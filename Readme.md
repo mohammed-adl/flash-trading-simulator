@@ -31,6 +31,13 @@ Live Demo: [https://flash-sim.vercel.app](https://flash-sim.vercel.app)
 - Maintain detailed trade history and insights to refine strategies.
 - Search for stocks globally or in your personal watchlist, with real-time updates.
 
+### AI-Powered Trading Assistant
+
+- Integrated OpenAI assistant that analyzes your current portfolio positions.
+- Real-time access to your holdings and live market prices.
+- Conversational interface for asking questions about your positions.
+- Get insights on portfolio performance and individual stock holdings.
+
 ### Global Data Fetching & Caching System
 
 - Periodically fetches global stock prices and caches them in memory to minimize API calls.
@@ -70,6 +77,7 @@ Live Demo: [https://flash-sim.vercel.app](https://flash-sim.vercel.app)
 
 - **Frontend:** Next.js (TypeScript), Tailwind CSS
 - **Backend:** Express.js (TypeScript), Prisma ORM
+- **AI/ML:** OpenAI GPT-4o-mini
 - **Realtime / Data:** Socket.IO, Yahoo Finance API
 - **Caching:** Redis
 - **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
@@ -231,3 +239,4 @@ npx prisma migrate dev
 - **Resilience & Reliability:** Handle rare edge cases in critical systems to ensure smooth operation, including fallback strategies for failures.
 - **Monitoring & Logging:** Implement comprehensive logging and monitoring for both backend and frontend to track errors and performance.
 - **Testing:** Add unit and end-to-end tests to ensure stability and catch edge cases before they reach users.
+- **Advanced AI Features:** Enhance the AI assistant with function calling to execute trades, access historical data, and provide deeper market analysis.
