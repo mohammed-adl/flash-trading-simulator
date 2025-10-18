@@ -29,7 +29,7 @@ export default function SettingsPage() {
       const body = await handleResetProfile();
       setUser(body.user);
       setSelectedSymbol(null);
-      router.push(`/${username}`);
+      setTimeout(() => router.push(`/${username}`), 0);
     } catch (err) {
       console.log(err);
     } finally {
