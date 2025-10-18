@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 
 import { success, fail, fetchPrice } from "../../lib/index.js";
-import { stockCache, marketWatchlist } from "../../socket/index.js";
+import { assetsCache, marketWatchlist } from "../../socket/index.js";
 
 export const getPrice = asyncHandler(async (req, res) => {
   const { symbol } = req.params;
@@ -9,7 +9,7 @@ export const getPrice = asyncHandler(async (req, res) => {
   let price = 0;
   let name = "";
 
-  const cached = stockCache.get(symbol);
+  const cached = assetsCache.get(symbol);
   if (cached) {
     price = cached.price;
     name = cached.name;
@@ -17,7 +17,7 @@ export const getPrice = asyncHandler(async (req, res) => {
 
   if (price === undefined) {
     const stock = await fetchPrice(symbol);
-    stockCache.set(symbol, { name: stock.name, price: stock.price });
+    assetsCache.set(symbol, { name: stock.name, price: stock.price });
 
     marketWatchlist.add(symbol);
     return fail("Stock not found", 404);

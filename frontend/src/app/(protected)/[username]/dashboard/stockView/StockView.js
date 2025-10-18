@@ -7,18 +7,18 @@ import { Package, DollarSign, TrendingUp, TrendingDown } from "lucide-react";
 import TradePanel from "./TradePanel";
 import StockChart from "./StockChart";
 
-import { useUser, useStock } from "@/contexts";
+import { useUser, useAsset } from "@/contexts";
 import { Spinner } from "@/components/ui";
 import {
   calcUnrealizedPnLD,
   calcUnrealizedPnLP,
   formatCurrency,
 } from "@/utils";
-import { handleGetStock } from "@/fetchers";
+import { handleGetAsset } from "@/fetchers";
 
 export default function StockView() {
   const { user } = useUser();
-  const { stocksPrices, selectedSymbol } = useStock();
+  const { assetsPrices, selectedSymbol } = useAsset();
   const [range, setRange] = useState("M");
 
   const lastActiveSymbol = user.holdings[0]?.symbol;
@@ -29,7 +29,7 @@ export default function StockView() {
     queryKey: ["stockData", selectedSymbol, range],
     queryFn: async () => {
       try {
-        return await handleGetStock({
+        return await handleGetAsset({
           symbol: validSymbol,
           range,
         });
@@ -38,6 +38,7 @@ export default function StockView() {
       }
     },
     enabled: !!validSymbol,
+    refetchOnWindowFocus: false,
     retry: 1,
   });
 
@@ -45,20 +46,20 @@ export default function StockView() {
   const chartData = stockData?.charts || [];
 
   const quantity = Number(
-    stocksPrices.find((s) => s.symbol === validSymbol)?.quantity ?? 0
+    assetsPrices.find((s) => s.symbol === validSymbol)?.quantity ?? 0
   );
 
   const unrealizedPnLD =
     calcUnrealizedPnLD(
-      stocksPrices[validSymbol]?.avgPrice ?? 0,
-      stocksPrices[validSymbol]?.price ?? 0,
+      assetsPrices[validSymbol]?.avgPrice ?? 0,
+      assetsPrices[validSymbol]?.price ?? 0,
       quantity
     ) || 0;
 
   const unrealizedPnLP =
     calcUnrealizedPnLP(
-      stocksPrices[validSymbol]?.avgPrice ?? 0,
-      stocksPrices[validSymbol]?.price ?? 0
+      assetsPrices[validSymbol]?.avgPrice ?? 0,
+      assetsPrices[validSymbol]?.price ?? 0
     ) || 0;
 
   const startPrice = chartData[0]?.price ?? 0;

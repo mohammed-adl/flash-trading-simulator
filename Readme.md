@@ -9,7 +9,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 
 > 🚀 **Flash** is a full-stack, real-time trading simulator built for performance, scale, and clean UX.  
-> Trade live stock data, manage portfolios, and analyze performance with AI-powered insights — all in one seamless platform.
+> Trade live market data, manage portfolios, and analyze performance with AI-powered insights — all in one seamless platform.
 
 <p align="center">
   <img src="/frontend/public/main.gif" alt="Live Trading Demo" width="850"/>
@@ -26,7 +26,7 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 
 **Core Highlights**
 
-- ⚡ Real-time stock trading and portfolio updates
+- ⚡ Real-time asset trading (stocks, crypto, forex) and portfolio updates
 - 💬 AI assistant integrated with your live holdings
 - 🧠 Global data caching system (Redis + Yahoo Finance API)
 - 🔐 Secure authentication with JWT, Zod, bcrypt
@@ -51,21 +51,21 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 
 ### Real-Time Trading & Portfolio Management
 
-- Simulate buying, selling, depositing, and withdrawing funds with live stock prices.
+- Simulate buying, selling, depositing, and withdrawing funds with live prices.
 - Track portfolio performance with interactive graphs, pie charts, and trade analytics.
 - Maintain detailed trade history and insights to refine strategies.
-- Search for stocks globally or in your personal watchlist, with real-time updates.
+- Search for assets globally or in your personal watchlist, with real-time updates.
 
 ### AI-Powered Trading Assistant
 
 - Integrated OpenAI assistant that analyzes your current portfolio positions.
 - Real-time access to your holdings and live market prices.
 - Conversational interface for asking questions about your positions.
-- Get insights on portfolio performance and individual stock holdings.
+- Get insights on portfolio performance and individual holdings.
 
 ### Global Data Fetching & Caching System
 
-- Periodically fetches global stock prices and caches them in memory to minimize API calls.
+- Periodically fetches global asset prices and caches them in memory to minimize API calls.
 - Uses symbols from each user’s watchlist to determine which data to serve.
 - All users get served from the same global data cache.
 - Fetch new missing symbols and add them to the global data cache.
@@ -93,7 +93,7 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 
 ### Frontend Architecture
 
-- Modular React architecture with four global contexts for user, portfolio, notifications, and stock data.
+- Modular React architecture with four global contexts for user, portfolio, notifications, and asset data.
 - Organized fetchers, services, and utilities ensure maintainable and scalable code.
 
 ---
@@ -259,7 +259,7 @@ npx prisma migrate dev
 ## Future Improvements
 
 - **Trading Features:** Implement automatic stop-loss and take-profit orders to help users manage risk.
-- **Analytics & Stock Insights:** Add more detailed stock analysis with a dedicated page for each owned stock.
+- **Analytics & Asset Insights:** Add more detailed asset analysis with a dedicated page for each owned asset.
 - **UI / UX Enhancements:** Introduce light mode support and improve overall responsiveness.
 - **Resilience & Reliability:** Handle rare edge cases in critical systems to ensure smooth operation, including fallback strategies for failures.
 - **Monitoring & Logging:** Implement comprehensive logging and monitoring for both backend and frontend to track errors and performance.

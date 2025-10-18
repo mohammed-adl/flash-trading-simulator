@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect, use } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useStock } from "@/contexts";
+import { useAsset } from "@/contexts";
 
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui";
-import { handleSearchStocks } from "@/fetchers";
+import { handleSearchAssets } from "@/fetchers";
 
 export default function SearchStocks() {
   const dropdownRef = useRef(null);
@@ -13,13 +13,13 @@ export default function SearchStocks() {
   const [results, setResults] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
 
-  const { setSelectedSymbol } = useStock();
+  const { setSelectedSymbol } = useAsset();
 
   const { data } = useQuery({
     queryKey: ["StocksSearch", query],
     queryFn: async () => {
       try {
-        return await handleSearchStocks(encodeURIComponent(query));
+        return await handleSearchAssets(encodeURIComponent(query));
       } catch (err) {
         console.log(err);
       }

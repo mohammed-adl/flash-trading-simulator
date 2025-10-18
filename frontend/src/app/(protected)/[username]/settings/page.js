@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import { useUser, useStock, usePortfolio } from "@/contexts";
+import { useUser, useAsset, usePortfolio } from "@/contexts";
 import { ConfirmModal, Logo } from "@/components/ui";
 import { handleResetProfile, handleUpdatePassword } from "@/fetchers";
 
@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const router = useRouter();
   const { username } = useParams();
   const { setUser, user } = useUser();
-  const { setSelectedSymbol } = useStock();
+  const { setSelectedSymbol } = useAsset();
   const { watchlistDisplay, setWatchlistDisplay } = usePortfolio();
 
   const [isLoading, setIsLoading] = useState(false);

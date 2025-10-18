@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 
-import { useStock } from "@/contexts";
+import { useAsset } from "@/contexts";
 import {
   Search as SearchIcon,
   ArrowUpRight,
@@ -11,7 +11,7 @@ import {
 import { calcUnrealizedPnLP } from "@/utils";
 
 export default function WalletDropdown({ onSelect, username }) {
-  const { stocksPrices, setSelectedSymbol } = useStock();
+  const { assetsPrices, selectedSymbol, setSelectedSymbol } = useAsset();
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState("");
   const [selected, setSelected] = useState(null);
@@ -26,7 +26,7 @@ export default function WalletDropdown({ onSelect, username }) {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, []);
 
-  const holdings = stocksPrices.map((s) => {
+  const holdings = assetsPrices.map((s) => {
     const changeValue = calcUnrealizedPnLP(s.avgPrice, s.price);
     return {
       symbol: s.symbol,

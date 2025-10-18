@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { LoadingScreen } from "@/components/ui";
-import { useUser, useStock } from "@/contexts";
+import { useUser, useAsset } from "@/contexts";
 import { calcPortfolioValue, formatCurrency } from "@/utils";
 import { handleGetPortfolio } from "@/fetchers";
 
@@ -26,14 +26,14 @@ export default function PortfolioSection() {
   });
 
   const { user } = useUser();
-  const { stocksPrices } = useStock();
+  const { assetsPrices } = useAsset();
 
   if (isLoading || error) return <LoadingScreen />;
 
   const trades = data.trades;
   const { totalDeposits, totalWithdrawals, monthlyRealizedPnL } = data.stats;
 
-  const portfolioValue = calcPortfolioValue(user.balance, stocksPrices);
+  const portfolioValue = calcPortfolioValue(user.balance, assetsPrices);
   const holdingsValue = portfolioValue - Number(user.balance);
 
   const totalHoldings = user.holdings.length;
@@ -46,7 +46,7 @@ export default function PortfolioSection() {
   const netDeposits = totalDeposits - totalWithdrawals;
   const returnPercent = netDeposits > 0 ? (totalPnL / netDeposits) * 100 : 0;
 
-  const holdingsData = stocksPrices.map((stock) => ({
+  const holdingsData = assetsPrices.map((stock) => ({
     name: stock.symbol,
     value: ((stock.price * stock.quantity) / portfolioValue) * 100,
     amount: stock.price * stock.quantity,

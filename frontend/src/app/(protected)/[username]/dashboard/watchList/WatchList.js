@@ -2,7 +2,7 @@
 
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import SimpleBar from "simplebar-react";
-import { useUser, useStock, usePortfolio } from "@/contexts";
+import { useUser, useAsset, usePortfolio } from "@/contexts";
 import {
   calcTUnrealizedPnLD,
   calcTUnrealizedPnLP,
@@ -12,12 +12,12 @@ import {
 import AIChat from "./AIChat";
 
 export default function WatchList() {
-  const { setSelectedSymbol, stocksPrices } = useStock();
+  const { setSelectedSymbol, assetsPrices } = useAsset();
   const { user } = useUser();
   const { watchlistDisplay, sortWatchList } = usePortfolio();
 
-  const totalPnLD = calcTUnrealizedPnLD(stocksPrices);
-  const totalPnLP = calcTUnrealizedPnLP(stocksPrices);
+  const totalPnLD = calcTUnrealizedPnLD(assetsPrices);
+  const totalPnLP = calcTUnrealizedPnLP(assetsPrices);
   const sortedStocks = sortWatchList(watchlistDisplay);
 
   return (

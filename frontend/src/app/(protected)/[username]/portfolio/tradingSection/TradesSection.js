@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useStock } from "@/contexts";
+import { useAsset } from "@/contexts";
 import { LoadingScreen } from "@/components/ui";
 import { handleGetTrades } from "@/fetchers";
 import { TradeStats } from "./TradeStats";
@@ -12,7 +12,7 @@ import { RecentTrades } from "./RecentTrades";
 import { getMonthlyPerformance, getTradingActivityByDay } from "@/utils";
 
 export default function TradesSection() {
-  const { stocksPrices } = useStock();
+  const { assetsPrices } = useAsset();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["trades"],
@@ -61,7 +61,7 @@ export default function TradesSection() {
           />
           <TradingActivityChart data={getTradingActivityByDay(dailyTrades)} />{" "}
         </div>
-        <RecentTrades trades={trades} stocksPrices={stocksPrices} />
+        <RecentTrades trades={trades} assetsPrices={assetsPrices} />
       </div>
     </div>
   );

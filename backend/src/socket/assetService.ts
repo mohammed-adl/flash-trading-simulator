@@ -4,16 +4,16 @@ import { calcPnLPercent } from "../utils/index.js";
 import { notificationService, redisService } from "../services/index.js";
 import { PRICES_UPDATE_INTERVAL } from "../config/index.js";
 
-export const stockCache: Map<string, { name: string; price: number }> = new Map();
+export const assetsCache: Map<string, { name: string; price: number }> = new Map();
 export let marketWatchlist: Set<string> = new Set();
 
 // Fetch and cache a single symbol price
-export async function fetchStockPrice(symbol: string) {
+export async function fetchAssetPrice(symbol: string) {
   if (!marketWatchlist.has(symbol)) marketWatchlist.add(symbol);
 
   try {
     const quote = await yahooFinance.quote(symbol); 
-    stockCache.set(symbol, {
+    assetsCache.set(symbol, {
       name: quote.shortName || "",
       price: quote.regularMarketPrice || 0,
     });
@@ -78,11 +78,11 @@ export async function buildWatchlistData(clientWatchlist: string[], userPosition
  const data: any[] = [];
  
   for (const sym of clientWatchlist) {
-    if (!stockCache.has(sym)) {
-      await fetchStockPrice(sym);
+    if (!assetsCache.has(sym)) {
+      await fetchAssetPrice(sym);
     }
 
-    const { price, name: cachedName } = stockCache.get(sym) || {};
+    const { price, name: cachedName } = assetsCache.get(sym) || {};
     const { name, avgPrice, quantity } = userPositions[sym] || {};
 
     data.push({
@@ -114,7 +114,7 @@ export async function fetchAllPrices() {
 
     quotes.forEach((quote, i) => {
       if (quote) {
-        stockCache.set(symbols[i], {
+       assetsCache.set(symbols[i], {
           name: quote.shortName,
           price: quote.regularMarketPrice,
         });

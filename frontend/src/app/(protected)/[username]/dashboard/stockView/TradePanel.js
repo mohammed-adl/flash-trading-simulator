@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import MessageModal from "./MessageModal";
 
 import { useUser } from "@/contexts";
-import { handleBuyStock, handleSellStock } from "@/fetchers";
+import { handleBuyAsset, handleSellAsset } from "@/fetchers";
 
 export default function TradePanel({ price, symbol }) {
   const queryClient = useQueryClient();
@@ -34,8 +34,8 @@ export default function TradePanel({ price, symbol }) {
     try {
       const body =
         tradeType === "buy"
-          ? await handleBuyStock({ symbol, quantity: shares })
-          : await handleSellStock({ symbol, quantity: shares });
+          ? await handleBuyAsset({ symbol, quantity: shares })
+          : await handleSellAsset({ symbol, quantity: shares });
 
       setUser(body.user);
 

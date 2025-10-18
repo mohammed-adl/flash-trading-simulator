@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 
 import { Logo } from "@/components/ui";
-import { useUser, useStock } from "@/contexts";
+import { useUser, useAsset } from "@/contexts";
 import { formatCurrency, calcPortfolioValue } from "@/utils";
 import { handleDeposit, handleWithdrawal } from "@/fetchers";
 
@@ -14,8 +14,8 @@ import { ServerError } from "@/components/ui";
 export default function WalletModal({ type = "deposit", isOpen, onClose }) {
   const queryClient = useQueryClient();
   const { user, setUser } = useUser();
-  const { stocksPrices } = useStock();
-  const portfolioValue = calcPortfolioValue(user?.balance, stocksPrices);
+  const { assetsPrices } = useAsset();
+  const portfolioValue = calcPortfolioValue(user?.balance, assetsPrices);
   const [status, setStatus] = useState("form");
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState(0);

@@ -2,12 +2,12 @@ import asyncHandler from "express-async-handler";
 import OpenAI from "openai";
 import { success, fail } from "../../lib/index.js";
 import { redisService } from "../../services/index.js";
-import { stockCache } from "../../socket/index.js";
+import { assetsCache } from "../../socket/index.js";
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 const SYSTEM_PROMPT = `You are an assistant in a trading simulator app called Flash.
-The user has positions in various stocks with their quantities, average prices to determine profits, and current prices.
+The user has positions in various assets with their quantities, average prices to determine profits, and current prices.
 You can answer questions about their positions, provide insights, and help with trading decisions.
 Only use the position data provided in each message - do not make up or assume prices.
 Keep responses concise and helpful. - Do not mention the word average price instead keep it user friendly.`;
@@ -23,7 +23,7 @@ export const sendMessage = asyncHandler(async (req, res) => {
     })
         .join("\n");
     const positionsText = positionsData || "No positions currently held.";
-    const marketPrices = Array.from(stockCache.entries())
+    const marketPrices = Array.from(assetsCache.entries())
         .map(([symbol, data]) => `${symbol} (${data.name}): $${data.price}`)
         .join("\n");
     const marketPricesText = marketPrices || "No market data available.";

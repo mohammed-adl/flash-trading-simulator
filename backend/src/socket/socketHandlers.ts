@@ -1,4 +1,4 @@
-import { fetchUserPositions, buildWatchlistData } from "./stockService.js";
+import { fetchUserPositions, buildWatchlistData } from "./assetService.js";
 import { PRICES_UPDATE_INTERVAL } from "../config/constants.js";
 import { Server, Socket } from "socket.io";
 
@@ -21,7 +21,7 @@ export function handleConnection(io: Server, socket: Socket) {
       userPositions
     );
 
-    io.to(socket.userId!).emit("stockUpdate", watchlistData);
+    io.to(socket.userId!).emit("assetUpdate", watchlistData);
   }
 
   socket.on("setWatchlist", async ({ holdings }: { holdings: Holding[] }) => {

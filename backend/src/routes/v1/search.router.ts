@@ -7,6 +7,6 @@ import * as searchConrtoller from "../../controllers/search/index.js";
 
 router.use(validateToken);
 
-router.get("/", searchConrtoller.searchStocks);
+router.get("/", searchConrtoller.searchAssets);
 
 export default router;

@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   UserProvider,
-  StockProvider,
+  AssetProvider,
   PortfolioProvider,
   NotificationProvider,
 } from "../contexts/index.js";
@@ -15,9 +15,9 @@ export default function Providers({ children }) {
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <NotificationProvider>
-          <StockProvider>
+          <AssetProvider>
             <PortfolioProvider> {children}</PortfolioProvider>
-          </StockProvider>
+          </AssetProvider>
         </NotificationProvider>
       </UserProvider>
     </QueryClientProvider>

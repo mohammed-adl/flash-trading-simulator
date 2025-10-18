@@ -5,18 +5,18 @@ import TransactionsModal from "./TransactionsModal";
 import StatCard from "./StatCard";
 import Tooltips from "./ToolTips";
 
-import { useUser, useStock } from "@/contexts";
+import { useUser, useAsset } from "@/contexts";
 import { formatCurrency, calcPortfolioValue } from "@/utils";
 import { handleGetPortfolio } from "@/fetchers";
 
 export default function Wallet() {
   const { user } = useUser();
-  const { stocksPrices } = useStock();
+  const { assetsPrices } = useAsset();
   const [modalType, setModalType] = useState(null);
   const [showLoading, setShowLoading] = useState(true);
 
   const { balance } = user;
-  const portfolioValue = calcPortfolioValue(balance, stocksPrices);
+  const portfolioValue = calcPortfolioValue(balance, assetsPrices);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["portfolio"],

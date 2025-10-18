@@ -15,13 +15,13 @@ export const signupBodySchema = z
       .string()
       .max(100, { message: "Email can't be more than 100 characters long" })
       .email({ message: "Invalid email address" }),
-    password: z.string(),
-    // .min(8, { message: "Password must be at least 8 characters long" })
-    // .max(100, { message: "Password can't be more than 100 characters long" })
-    // .regex(passwordRegex, {
-    //   message:
-    //     "Password must be at least 8 characters long, include one uppercase letter and one number",
-    // }),
+    password: z.string()
+    .min(8, { message: "Password must be at least 8 characters long" })
+    .max(100, { message: "Password can't be more than 100 characters long" })
+    .regex(passwordRegex, {
+      message:
+        "Password must be at least 8 characters long, include one uppercase letter and one number",
+    }),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

@@ -19,7 +19,7 @@ const notificationService = {
     await notificationService.create(
       "SUCCESS",
       "Profile reset",
-      "Your profile has been reset. Please buy a stock to start trading.",
+      "Your profile has been reset. Please buy an asset to start trading.",
       userId
     );
       notificationService.sendToUser(userId);
