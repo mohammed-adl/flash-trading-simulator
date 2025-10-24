@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: flash-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: flash_user
+      POSTGRES_PASSWORD: flash_password
+      POSTGRES_DB: flash_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - flash-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flash-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      ORIGIN: http://localhost:3000
+      DATABASE_URL: postgresql://flash_user:flash_password@postgres:5432/flash_db
+      REDIS_URL: ${REDIS_URL}
+      ACCESS_SECRET: ${ACCESS_SECRET}
+      REFRESH_SECRET: ${REFRESH_SECRET}
+    depends_on:
+      - postgres
+    networks:
+      - flash-network
+
+volumes:
+  postgres_data:
+
+networks:
+  flash-network:
+    driver: bridge
