@@ -45,9 +45,11 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 4. [Getting Started](#getting-started)
    - [With Docker (Recommended)](#with-docker-recommended)
    - [Without Docker](#without-docker)
-5. [Usage](#usage)
-6. [Screenshots / Demo](#screenshots--demo)
-7. [Future Improvements](#future-improvements)
+5. [How it Works](#how-it-works)
+6. [Usage](#usage)
+7. [System Architecture](#system-architecture)
+8. [Screenshots / Demo](#screenshots--demo)
+9. [Future Improvements](#future-improvements)
 
 ---
 
@@ -187,7 +189,7 @@ ACCESS_SECRET=your_jwt_access_secret
 REFRESH_SECRET=your_jwt_refresh_secret
 
 DATABASE_URL=postgresql://flash_user:flash_password@postgres:5432/flash_db
-REDIS_URL=redis://redis:6379
+REDIS_URL=rediss://default:your_upstash_password@your-upstash-url.upstash.io:6379
 ```
 
 3. **Start all services with Docker Compose**
@@ -199,7 +201,6 @@ docker-compose up -d
 This will start:
 
 - PostgreSQL database
-- Redis cache
 - Backend API server
 
 4. **Run database migrations**
@@ -314,6 +315,32 @@ Open your browser at [http://localhost:3000](http://localhost:3000) to access th
 
 ---
 
+## How It Works
+
+### Real-Time Price Updates
+
+1. Backend fetches asset prices from Yahoo Finance API every x seconds
+2. Prices are cached globally in Redis to minimize API calls
+3. Socket.IO pushes updates to users based on their watchlists
+4. Frontend updates portfolio values in real-time
+
+### Trade Execution Flow
+
+1. User places buy/sell order through frontend
+2. Backend validates funds and availability
+3. Transaction is saved to PostgreSQL via Prisma
+4. Portfolio cache in Redis is updated
+5. Socket.IO broadcasts update to user's active sessions
+6. Frontend updates portfolio and trade history
+
+### AI Assistant
+
+1. User asks question about their portfolio
+2. Frontend sends query + portfolio context to backend
+3. Backend retrieves current holdings and live prices
+4. OpenAI analyzes data and generates insights
+5. Response is streamed back to user in real-time
+
 ## Usage
 
 1. Sign up or log in with your account — new users start with an initial deposit.
@@ -322,6 +349,27 @@ Open your browser at [http://localhost:3000](http://localhost:3000) to access th
 4. Track your performance with portfolio charts, trade history, and analytics.
 
 ---
+
+### System Architecture
+
+```
+┌─────────────┐
+│   Browser   │
+│  (Next.js)  │
+└──────┬──────┘
+       │ HTTP/WebSocket
+       ↓
+┌─────────────┐      ┌──────────────┐
+│   Express   │ ───→ │  PostgreSQL  │
+│   Backend   │      │   (Prisma)   │
+└──────┬──────┘      └──────────────┘
+       │
+       ├───→ Upstash Redis (Cache)
+       │
+       ├───→ Yahoo Finance API (Prices)
+       │
+       └───→ OpenAI API (AI Assistant)
+```
 
 ## Screenshots / Demo
 
