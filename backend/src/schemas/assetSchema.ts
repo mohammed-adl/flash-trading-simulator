@@ -10,29 +10,19 @@ export const symbolSchema = z.object({
 });
 
 export const buyAssetBodySchema = z.object({
-  quantity: z
-    .number()
-    .int({ message: "Quantity must be an integer" })
-    .positive({ message: "Quantity must be greater than 0" }),
+  quantity: z.coerce.number().int().positive(),
 });
 
 export const sellAssetBodySchema = z.object({
-  quantity: z
-    .number()
-    .int({ message: "Quantity must be an integer" })
-    .positive({ message: "Quantity must be greater than 0" }),
+  quantity: z.coerce.number().int().positive(),
 });
 
 export const depositBodySchema = z.object({
-  amount: z
-    .number()
-    .positive({ message: "Amount must be greater than 0" }),
+  amount: z.number().positive({ message: "Amount must be greater than 0" }),
 });
 
 export const withdrawBodySchema = z.object({
-  amount: z
-    .number()
-    .positive({ message: "Amount must be greater than 0" }),
+  amount: z.number().positive({ message: "Amount must be greater than 0" }),
 });
 
 export const getAssetSchema = z.object({

@@ -101,6 +101,9 @@ export const buyStock = asyncHandler(async (req, res) => {
   return success(res, {
     user: result.user,
     holding: result.holding,
-    trade: result.trade,
+    trade: {
+      ...result.trade,
+      price: String(result.trade.price),
+    },
   });
 });
