@@ -7,6 +7,7 @@
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-28A745?style=flat&logo=socketdotio&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 
 > 🚀 **Flash** is a full-stack, real-time trading simulator built for performance, scale, and clean UX.  
 > Trade live market data, manage portfolios, and analyze performance with AI-powered insights — all in one seamless platform.
@@ -22,7 +23,7 @@
 ## 🧩 Overview
 
 Flash combines a modern, real-time frontend with a robust, scalable backend.  
-It’s designed to demonstrate production-ready architecture, advanced caching, and real-time synchronization — all while providing an intuitive trading experience.
+It's designed to demonstrate production-ready architecture, advanced caching, and real-time synchronization — all while providing an intuitive trading experience.
 
 **Core Highlights**
 
@@ -32,6 +33,7 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 - 🔐 Secure authentication with JWT, Zod, bcrypt
 - 📊 Clean, responsive UI with notifications and analytics
 - 🧱 Modular architecture built for scalability
+- 🐳 Docker support for easy deployment
 
 ---
 
@@ -41,6 +43,8 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 2. [Tech Stack](#tech-stack)
 3. [Architecture & Project Structure](#architecture--project-structure)
 4. [Getting Started](#getting-started)
+   - [With Docker (Recommended)](#with-docker-recommended)
+   - [Without Docker](#without-docker)
 5. [Usage](#usage)
 6. [Screenshots / Demo](#screenshots--demo)
 7. [Future Improvements](#future-improvements)
@@ -66,7 +70,7 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 ### Global Data Fetching & Caching System
 
 - Periodically fetches global asset prices and caches them in memory to minimize API calls.
-- Uses symbols from each user’s watchlist to determine which data to serve.
+- Uses symbols from each user's watchlist to determine which data to serve.
 - All users get served from the same global data cache.
 - Fetch new missing symbols and add them to the global data cache.
 - Sends real-time updates **per user watchlist**, keeping portfolios and watchlists fresh.
@@ -106,7 +110,7 @@ It’s designed to demonstrate production-ready architecture, advanced caching, 
 - **Realtime / Data:** Socket.IO, Yahoo Finance API
 - **Caching:** Redis
 - **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
-- **Deployment:** Render (backend), Vercel (frontend)
+- **Deployment:** Render (backend), Vercel (frontend), Docker
 
 ---
 
@@ -130,11 +134,11 @@ flash/
 │     ├─ services/    # Frontend business logic
 │     ├─ socket/      # Socket.IO client code
 │     └─ utils/       # Utility functions
-
 ├─ backend/
 │  ├─ prisma/         # Prisma schema & migrations
 │  ├─ .env
 │  ├─ .gitignore
+│  ├─ Dockerfile      # Docker configuration for backend
 │  ├─ app.js          # Express app setup
 │  ├─ server.js       # Entry point for backend server
 │  └─ src/
@@ -147,7 +151,6 @@ flash/
 │     ├─ services/    # Business logic helpers
 │     ├─ socket/      # Socket.IO server code
 │     └─ utils/       # Utility functions
-
 ├─ README.md
 ```
 
@@ -155,9 +158,72 @@ flash/
 
 ## Getting Started
 
-Follow these steps to run **Flash – Trading Simulator** locally.
+### With Docker (Recommended)
 
-### Prerequisites
+#### Prerequisites
+
+- Docker
+- PostgreSQL (running separately)
+- Redis (running separately)
+
+#### Steps
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/flash-trading-simulator/flash.git
+cd flash-trading-simulator
+```
+
+2. **Configure environment variables**
+
+Create `.env` file in `backend/` directory.
+
+**Backend `.env`**
+
+```bash
+NODE_ENV=production
+PORT=4000
+ORIGIN=http://localhost:3000
+
+ACCESS_SECRET=your_jwt_access_secret
+REFRESH_SECRET=your_jwt_refresh_secret
+
+DATABASE_URL=postgres://username:password@host:5432/flash
+REDIS_URL=redis://username:password@host:port
+```
+
+3. **Build backend Docker image**
+
+```bash
+cd backend
+docker build -t flash-backend .
+```
+
+4. **Run backend container**
+
+```bash
+docker run -p 4000:4000 flash-backend
+```
+
+5. **Install and run frontend**
+
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
+6. **Access the application**
+
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend API: [http://localhost:4000](http://localhost:4000)
+
+---
+
+### Without Docker
+
+#### Prerequisites
 
 Make sure you have the following installed:
 
@@ -166,14 +232,16 @@ Make sure you have the following installed:
 - PostgreSQL (local or remote)
 - Redis
 
-### Clone the repository
+#### Steps
+
+1. **Clone the repository**
 
 ```bash
 git clone https://github.com/flash-trading-simulator/flash.git
 cd flash-trading-simulator
 ```
 
-### Install dependencies
+2. **Install dependencies**
 
 ```bash
 # Backend
@@ -185,13 +253,13 @@ cd ../frontend
 npm install
 ```
 
-### Configure environment variables
+3. **Configure environment variables**
 
 **Backend `.env`**
 
 ```bash
 NODE_ENV=development
-PORT=3001
+PORT=4000
 ORIGIN=http://localhost:3000
 
 ACCESS_SECRET=your_jwt_access_secret
@@ -205,11 +273,19 @@ REDIS_URL=redis://username:password@host:port
 
 ```bash
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
 ```
 
-### Run the application
+4. **Run database migrations**
+
+```bash
+cd backend
+npx prisma generate
+npx prisma migrate dev
+```
+
+5. **Run the application**
 
 ```bash
 # Start backend
@@ -222,14 +298,6 @@ npm run dev
 ```
 
 Open your browser at [http://localhost:3000](http://localhost:3000) to access the app.
-
-### Database Migrations
-
-```bash
-cd backend
-npx prisma generate
-npx prisma migrate dev
-```
 
 ### Additional Notes
 
@@ -270,5 +338,5 @@ npx prisma migrate dev
 
 ## License
 
-This project is licensed under the MIT License.  
+This project is licensed under the MIT License.
 See the [LICENSE](./LICENSE) file for details.
