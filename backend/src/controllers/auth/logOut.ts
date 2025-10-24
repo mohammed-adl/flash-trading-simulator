@@ -6,7 +6,6 @@ import { authService } from "../../services/index.js";
 export const logOut = asyncHandler(async (req: Request, res: Response) => {
   const userId = req.user.id;
 
-
   const refreshToken = req.body.refreshToken;
   if (!refreshToken) fail("Refresh token not found", 401);
 

@@ -4,7 +4,8 @@ import { calcPnLPercent } from "../utils/index.js";
 import { notificationService, redisService } from "../services/index.js";
 import { PRICES_UPDATE_INTERVAL } from "../config/index.js";
 
-export const assetsCache: Map<string, { name: string; price: number }> = new Map();
+export const assetsCache: Map<string, { name: string; price: number }> =
+  new Map();
 export let marketWatchlist: Set<string> = new Set();
 
 // Fetch and cache a single symbol price
@@ -12,12 +13,11 @@ export async function fetchAssetPrice(symbol: string) {
   if (!marketWatchlist.has(symbol)) marketWatchlist.add(symbol);
 
   try {
-    const quote = await yahooFinance.quote(symbol); 
+    const quote = await yahooFinance.quote(symbol);
     assetsCache.set(symbol, {
       name: quote.shortName || "",
       price: quote.regularMarketPrice || 0,
     });
-
   } catch (err: any) {
     console.error(`Error fetching ${symbol}:`, err.message);
   }
@@ -50,14 +50,17 @@ async function watchMilestone(userPositions: UserPositions, userId: string) {
       const direction = pnlPercent > 0 ? "profit" : "loss";
 
       try {
-        await notificationService.createWarning({userId, symbol:pos.symbol, direction});
+        await notificationService.createWarning({
+          userId,
+          symbol: pos.symbol,
+          direction,
+        });
       } catch (err: any) {
         console.error("Error sending milestone notification:", err.message);
       }
     }
   }
 }
-
 
 // Fetch user positions from Redis
 export async function fetchUserPositions(userId: string) {
@@ -74,9 +77,12 @@ export async function fetchUserPositions(userId: string) {
 }
 
 // Build watchlist data to send to client
-export async function buildWatchlistData(clientWatchlist: string[], userPositions: UserPositions) {
- const data: any[] = [];
- 
+export async function buildWatchlistData(
+  clientWatchlist: string[],
+  userPositions: UserPositions
+) {
+  const data: any[] = [];
+
   for (const sym of clientWatchlist) {
     if (!assetsCache.has(sym)) {
       await fetchAssetPrice(sym);
@@ -114,7 +120,7 @@ export async function fetchAllPrices() {
 
     quotes.forEach((quote, i) => {
       if (quote) {
-       assetsCache.set(symbols[i], {
+        assetsCache.set(symbols[i], {
           name: quote.shortName,
           price: quote.regularMarketPrice,
         });

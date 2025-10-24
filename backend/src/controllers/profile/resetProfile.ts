@@ -45,9 +45,9 @@ export const resetProfile = asyncHandler(async (req, res) => {
   await redisService.set(`user:${userId}:transactions`, {
     totalDeposits: INITIAL_BALANCE,
     totalWithdrawals: 0,
-  })
+  });
 
-    notificationService.createReset(userId);
+  notificationService.createReset(userId);
 
   return success(res, { user: result.user });
 });

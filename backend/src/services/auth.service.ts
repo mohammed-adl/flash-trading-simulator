@@ -27,7 +27,6 @@ interface JWTPayload {
   [key: string]: any;
 }
 
-
 const authService = {
   // ==============================================
   // User CREATION
@@ -102,7 +101,7 @@ const authService = {
       throw new AppError("No refresh token found", 400);
     }
 
-  let validToken: typeof tokens[0] | null = null;
+    let validToken: (typeof tokens)[0] | null = null;
     for (const token of tokens) {
       const isValid = await bcrypt.compare(refreshToken, token.token);
       if (isValid) {
@@ -123,7 +122,10 @@ const authService = {
   // ==============================================
   // TOKEN HELPERS
   // ==============================================
-  async saveRefreshToken(userId: string, refreshToken: string): Promise<string> {
+  async saveRefreshToken(
+    userId: string,
+    refreshToken: string
+  ): Promise<string> {
     const hashedToken = await bcrypt.hash(refreshToken, 10);
 
     const token = await prisma.refreshToken.create({

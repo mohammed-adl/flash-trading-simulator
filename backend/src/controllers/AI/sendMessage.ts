@@ -1,8 +1,8 @@
 import asyncHandler from "express-async-handler";
 import OpenAI from "openai";
 import { success, fail } from "../../lib/index.js";
-import {redisService} from "../../services/index.js";
-import {assetsCache} from "../../socket/index.js";
+import { redisService } from "../../services/index.js";
+import { assetsCache } from "../../socket/index.js";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -16,9 +16,9 @@ Keep responses concise and helpful. - Do not mention the word average price inst
 
 export const sendMessage = asyncHandler(async (req, res) => {
   const { message, convo = [] } = req.body;
-  const userId = req.user.id; 
+  const userId = req.user.id;
 
-  if (!message) return fail( "Message is required", 400);
+  if (!message) return fail("Message is required", 400);
 
   const userPositions = await redisService.getPositions(userId);
 

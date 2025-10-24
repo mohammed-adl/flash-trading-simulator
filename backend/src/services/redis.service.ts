@@ -74,11 +74,22 @@ const redisService = {
 
   // ------------------ Helper Getters ------------------
   getTransactions: async (userId: string): Promise<Transactions> => {
-    return (await redisService.get<Transactions>(KEYS.transactions(userId))) || { totalDeposits: 0, totalWithdrawals: 0 };
+    return (
+      (await redisService.get<Transactions>(KEYS.transactions(userId))) || {
+        totalDeposits: 0,
+        totalWithdrawals: 0,
+      }
+    );
   },
 
-  getMonthlyRealizedPnL: async (userId: string): Promise<Record<string, number>> => {
-    return (await redisService.get<Record<string, number>>(KEYS.monthlyRealizedPnL(userId))) || {};
+  getMonthlyRealizedPnL: async (
+    userId: string
+  ): Promise<Record<string, number>> => {
+    return (
+      (await redisService.get<Record<string, number>>(
+        KEYS.monthlyRealizedPnL(userId)
+      )) || {}
+    );
   },
 
   getTradeStats: async (userId: string): Promise<TradeStats> => {
@@ -102,15 +113,28 @@ const redisService = {
   },
 
   getPositions: async (userId: string): Promise<Record<string, any>> => {
-    return (await redisService.get<Record<string, any>>(KEYS.positions(userId))) || {};
+    return (
+      (await redisService.get<Record<string, any>>(KEYS.positions(userId))) ||
+      {}
+    );
   },
 
   getDailyTrades: async (userId: string): Promise<Record<string, number>> => {
-    return (await redisService.get<Record<string, number>>(KEYS.dailyTrades(userId))) || {};
+    return (
+      (await redisService.get<Record<string, number>>(
+        KEYS.dailyTrades(userId)
+      )) || {}
+    );
   },
 
-  getMonthlyWinningTrades: async (userId: string): Promise<Record<string, number>> => {
-    return (await redisService.get<Record<string, number>>(KEYS.monthlyWinningTrades(userId))) || {};
+  getMonthlyWinningTrades: async (
+    userId: string
+  ): Promise<Record<string, number>> => {
+    return (
+      (await redisService.get<Record<string, number>>(
+        KEYS.monthlyWinningTrades(userId)
+      )) || {}
+    );
   },
 
   // ------------------ High-Level Functions ------------------
@@ -139,11 +163,15 @@ const redisService = {
 
     if (profit > 0) {
       stats.winningTrades += 1;
-      stats.avgWin = (stats.avgWin * (stats.winningTrades - 1) + profit) / stats.winningTrades;
+      stats.avgWin =
+        (stats.avgWin * (stats.winningTrades - 1) + profit) /
+        stats.winningTrades;
       if (profit > stats.largestWin) stats.largestWin = profit;
     } else {
       stats.losingTrades += 1;
-      stats.avgLoss = (stats.avgLoss * (stats.losingTrades - 1) + profit) / stats.losingTrades;
+      stats.avgLoss =
+        (stats.avgLoss * (stats.losingTrades - 1) + profit) /
+        stats.losingTrades;
       if (profit < stats.largestLoss) stats.largestLoss = profit;
     }
 
@@ -174,7 +202,11 @@ const redisService = {
     return monthlyPnL;
   },
 
-  setTransactions: async (userId: string, amount: number, type: "DEPOSIT" | "WITHDRAWAL") => {
+  setTransactions: async (
+    userId: string,
+    amount: number,
+    type: "DEPOSIT" | "WITHDRAWAL"
+  ) => {
     const key = KEYS.transactions(userId);
     let transactions = await redisService.getTransactions(userId);
 

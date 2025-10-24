@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import { prisma, success, fail, userSelect } from "../../lib/index.js";
 import { authService } from "../../services/index.js";
 
-
 export const refreshToken = asyncHandler(async (req, res) => {
   const refreshToken = req.body.refreshToken;
 
@@ -19,7 +18,7 @@ export const refreshToken = asyncHandler(async (req, res) => {
     },
   });
 
-  let validToken: typeof tokens[0] | null = null;
+  let validToken: (typeof tokens)[0] | null = null;
   for (const token of tokens) {
     const isValid = await bcrypt.compare(refreshToken, token.token);
     if (isValid) {

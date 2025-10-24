@@ -14,14 +14,14 @@ export const getTrades = asyncHandler(async (req, res) => {
   const statsKey = `user:${userId}:tradeStats`;
 
   interface Stats {
-    realizedPnL: number ;
+    realizedPnL: number;
     totalTrades: number;
     winningTrades: number;
     losingTrades: number;
     winRate: number;
     avgPnl: number;
   }
-  const stats = (await redisService.get(statsKey)) as Stats ;
+  const stats = (await redisService.get(statsKey)) as Stats;
 
   const {
     realizedPnL = 0,
