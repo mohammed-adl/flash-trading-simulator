@@ -156,15 +156,12 @@ flash/
 
 ---
 
-## Getting Started
-
 ### With Docker (Recommended)
 
 #### Prerequisites
 
 - Docker
-- PostgreSQL (running separately)
-- Redis (running separately)
+- Docker Compose
 
 #### Steps
 
@@ -189,27 +186,33 @@ ORIGIN=http://localhost:3000
 ACCESS_SECRET=your_jwt_access_secret
 REFRESH_SECRET=your_jwt_refresh_secret
 
-DATABASE_URL=postgres://username:password@host:5432/flash
-REDIS_URL=redis://username:password@host:port
+DATABASE_URL=postgresql://flash_user:flash_password@postgres:5432/flash_db
+REDIS_URL=redis://redis:6379
 ```
 
-3. **Build backend Docker image**
+3. **Start all services with Docker Compose**
 
 ```bash
-cd backend
-docker build -t flash-backend .
+docker-compose up -d
 ```
 
-4. **Run backend container**
+This will start:
+
+- PostgreSQL database
+- Redis cache
+- Backend API server
+
+4. **Run database migrations**
 
 ```bash
-docker run -p 4000:4000 flash-backend
+docker-compose exec backend npx prisma generate
+docker-compose exec backend npx prisma migrate dev
 ```
 
 5. **Install and run frontend**
 
 ```bash
-cd ../frontend
+cd frontend
 npm install
 npm run dev
 ```
@@ -219,7 +222,11 @@ npm run dev
 - Frontend: [http://localhost:3000](http://localhost:3000)
 - Backend API: [http://localhost:4000](http://localhost:4000)
 
----
+7. **Stop all services**
+
+```bash
+docker-compose down
+```
 
 ### Without Docker
 
