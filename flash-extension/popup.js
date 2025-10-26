@@ -1,4 +1,6 @@
-const API_URL = "http://localhost:4000/api/v1";
+const API_URL = (process.env.NOD_ENV = "production"
+  ? "https://flash-trading-simulator-production.up.railway.app"
+  : "http://localhost:3000");
 
 const loginForm = document.getElementById("loginForm");
 const tradingForm = document.getElementById("tradingForm");
