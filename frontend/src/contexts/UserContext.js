@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { authService } from "@/services";
 import { LoadingScreen } from "@/components/ui";
+import { socket } from "@/socket";
 
 const UserContext = createContext();
 
@@ -21,6 +22,16 @@ export function UserProvider({ children }) {
     }
     setLoading(false);
   }, [user]);
+
+  useEffect(() => {
+    socket.on("userDataUpdate", (userData) => {
+      setUser(userData);
+    });
+
+    return () => {
+      socket.off("userDataUpdate");
+    };
+  }, []);
 
   useEffect(() => {
     function handleStorageChange(event) {

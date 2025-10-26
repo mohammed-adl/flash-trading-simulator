@@ -12,6 +12,7 @@ export function AssetProvider({ children }) {
   useEffect(() => {
     socket.on("assetUpdate", (data) => {
       setAssetsPrices(data);
+      console.log("Asset update received");
     });
 
     return () => {

@@ -39,13 +39,18 @@ export default function TradePanel({ price, symbol }) {
 
       setUser(body.user);
 
+      const newHolding = body.user.holdings.find((s) => s.symbol === symbol);
+      const newTotalHolding = newHolding ? newHolding.quantity : 0;
+
       setModal({
         isOpen: true,
         type: "success",
+        tradeType: tradeType,
         price: Number(body.trade.price),
-        totalShares:
-          body.user.holdings.find((s) => s.symbol === symbol)?.quantity || 0,
-        totalCost: Number(body.trade.price) * Number(shares),
+        totalSharesTraded: Number(body.trade.quantity) || 0,
+        newTotalHolding: newTotalHolding,
+        totalCost:
+          Number(body.trade.price) * (Number(body.trade.quantity) || 0),
         newBalance: Number(body.user.balance),
       });
 
@@ -142,9 +147,10 @@ export default function TradePanel({ price, symbol }) {
         onClose={() => setModal({ ...modal, isOpen: false })}
         loading={isLoading}
         price={modal.price}
-        totalShares={modal.totalShares}
-        totalCost={modal.totalCost}
+        totalSharesTraded={modal.totalSharesTraded}
+        newTotalHolding={modal.newTotalHolding}
         newBalance={modal.newBalance}
+        tradeType={modal.tradeType}
       />
     </div>
   );

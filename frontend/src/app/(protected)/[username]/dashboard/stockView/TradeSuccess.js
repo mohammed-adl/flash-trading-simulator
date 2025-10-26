@@ -3,14 +3,15 @@ import { CheckCircle2 } from "lucide-react";
 import { formatCurrency } from "@/utils";
 
 export default function TradeSuccess({
-  type,
-  totalShares,
+  totalSharesTraded,
+  newTotalHolding,
   totalCost,
   newBalance,
+  tradeType,
   price,
   onClose,
 }) {
-  const isBuy = type === "success";
+  const isBuy = tradeType === "buy";
 
   return (
     <div className="flex flex-col items-center text-center py-6">
@@ -22,14 +23,14 @@ export default function TradeSuccess({
         className={`text-xl font-bold mb-2 ${isBuy ? "text-up" : "text-down"}`}
       >
         {isBuy
-          ? `Successfully Bought ${totalShares} Shares`
-          : `Successfully Sold ${totalShares} Shares`}
+          ? `Successfully Bought ${totalSharesTraded} Shares`
+          : `Successfully Sold ${totalSharesTraded} Shares`}
       </h2>
 
       <div className="text-sm mb-4 space-y-1">
         <p className="text-foreground">
           Total shares:{" "}
-          <span className="font-semibold text-muted">{totalShares}</span>
+          <span className="font-semibold text-muted">{newTotalHolding}</span>
         </p>
         <p className="text-foreground">
           Price per share:{" "}

@@ -6,6 +6,7 @@ export default function MessageModal({
   type,
   isOpen,
   onClose,
+  tradeType,
   loading,
   ...props
 }) {
@@ -24,7 +25,12 @@ export default function MessageModal({
         </button>
 
         {isSuccess ? (
-          <TradeSuccess {...props} onClose={onClose} type={type} />
+          <TradeSuccess
+            {...props}
+            onClose={onClose}
+            type={type}
+            tradeType={tradeType}
+          />
         ) : (
           <ServerError type="trade" onRetry={onClose} loading={loading} />
         )}

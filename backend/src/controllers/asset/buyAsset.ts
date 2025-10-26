@@ -8,6 +8,7 @@ import {
   userSelect,
   tradeSelect,
 } from "../../lib/index.js";
+import { emitWatchlistUpdate } from "../../socket/index.js";
 import { redisService } from "../../services/index.js";
 
 export const buyStock = asyncHandler(async (req, res) => {
@@ -98,12 +99,11 @@ export const buyStock = asyncHandler(async (req, res) => {
     avgPrice: result.holding.avgPrice,
   });
 
+  emitWatchlistUpdate(userId);
+
   return success(res, {
     user: result.user,
     holding: result.holding,
-    trade: {
-      ...result.trade,
-      price: String(result.trade.price),
-    },
+    trade: result.trade,
   });
 });
