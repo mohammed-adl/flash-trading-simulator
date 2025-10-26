@@ -8,6 +8,7 @@
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 ![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Browser Extension](https://img.shields.io/badge/-Browser%20Extension-4A90E2?style=flat-square&logo=google-chrome&logoColor=white)
 
 > 🚀 **Flash** is a full-stack, real-time trading simulator built for performance, scale, and clean UX.  
 > Trade live market data, manage portfolios, and analyze performance with AI-powered insights — all in one seamless platform.
@@ -102,6 +103,11 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - Modular React architecture with four global contexts for user, portfolio, notifications, and asset data.
 - Organized fetchers, services, and utilities ensure maintainable and scalable code.
 
+### Browser Extension
+
+- Trade directly from your browser without opening the full app.
+- Supports real-time buy and sell operations.
+
 ---
 
 ## Tech Stack
@@ -113,6 +119,7 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - **Caching:** Redis
 - **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
 - **Deployment:** Render (backend), Vercel (frontend), Docker
+- **Browser Extension:** Manifest V3
 
 ---
 
