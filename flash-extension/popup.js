@@ -30,7 +30,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
 
     if (response.ok) {
       const data = await response.json();
-      await chrome.storage.local.set({ token: data.data.accessToken });
+      await chrome.storage.local.set({ token: data.token });
       showStatus("Login successful!", "success");
       showTradingForm();
     } else {
