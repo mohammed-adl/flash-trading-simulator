@@ -2,7 +2,7 @@ body {
   width: 320px;
   padding: 15px;
   font-family: Arial, sans-serif;
-  background-color: #fffb8f;
+  background-color: #fffbe6;
   color: #1f2937;
 }
 
@@ -14,20 +14,19 @@ h3 {
   font-size: 18px;
 }
 
-h3::before {
-  content: url("icon.png");
+.logo {
   width: 24px;
   height: 24px;
-  display: inline-block;
 }
 
 input {
   width: 100%;
   padding: 8px;
   margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 button {
@@ -36,7 +35,7 @@ button {
   background: #2563eb;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   margin-top: 8px;
@@ -44,7 +43,7 @@ button {
 }
 
 button:hover {
-  background: #1d4ed8;
+  background: #1e40af;
 }
 
 button.secondary {
@@ -63,7 +62,6 @@ button.sell:hover {
   background: #b91c1c;
 }
 
-/* Trade buttons layout */
 .trade-buttons {
   display: flex;
   gap: 8px;
@@ -76,7 +74,7 @@ button.sell:hover {
 #status {
   margin-top: 10px;
   padding: 8px;
-  border-radius: 4px;
+  border-radius: 8px;
   text-align: center;
   font-size: 13px;
 }
