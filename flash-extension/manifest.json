@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Flash Watchlist Extension",
+  "version": "1.0.0",
+  "description": "Add stocks to your Flash watchlist from anywhere",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.svg",
+      "48": "icon.svg",
+      "128": "icon.svg"
+    }
+  },
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": [
+    "http://localhost:4000/*",
+    "https://flash-trading-simulator-production.up.railway.app/*"
+  ]
+}
