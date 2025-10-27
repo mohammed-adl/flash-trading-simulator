@@ -9,6 +9,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
 ![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![Browser Extension](https://img.shields.io/badge/-Browser%20Extension-4A90E2?style=flat-square&logo=google-chrome&logoColor=white)
+![Stripe](https://img.shields.io/badge/-Stripe-626CD9?style=flat-square&logo=stripe&logoColor=white)
 
 > 🚀 **Flash** is a full-stack, real-time trading simulator built for performance, scale, and clean UX.  
 > Trade live market data, manage portfolios, and analyze performance with AI-powered insights — all in one seamless platform.
@@ -110,6 +111,13 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 
 ---
 
+### 💳 Subscriptions & Payments (Stripe Integration)
+
+- Seamless payment flow using Stripe for premium access or donation support.
+- Secure card collection with **Stripe Elements** and test-mode payments.
+- Fully PCI compliant — card data never touches your server.
+- Real-time confirmation of payments via `PaymentIntent` API.
+
 ## Tech Stack
 
 - **Frontend:** Next.js (TypeScript), Tailwind CSS
@@ -120,6 +128,7 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
 - **Deployment:** Render (backend), Vercel (frontend), Docker
 - **Browser Extension:** Manifest V3
+- **Payments:** Stripe (PaymentIntents, Elements)
 
 ---
 
@@ -197,6 +206,9 @@ REFRESH_SECRET=your_jwt_refresh_secret
 
 DATABASE_URL=postgresql://flash_user:flash_password@postgres:5432/flash_db
 REDIS_URL=rediss://default:your_upstash_password@your-upstash-url.upstash.io:6379
+
+STRIPE_SECRET_KEY=sk_test_yourSecretKey
+
 ```
 
 3. **Start all services with Docker Compose**
@@ -288,8 +300,12 @@ REDIS_URL=redis://username:password@host:port
 
 ```bash
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
 NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
 NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
+
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_yourPublishableKey
+
 ```
 
 4. **Run database migrations**
