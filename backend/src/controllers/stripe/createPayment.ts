@@ -13,10 +13,12 @@ export const createPaymentIntent = asyncHandler(async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: "usd",
+      automatic_payment_methods: { enabled: true },
     });
 
     return success(res, { clientSecret: paymentIntent.client_secret });
   } catch (err: any) {
+    console.error(err);
     return fail(err.message, 500);
   }
 });

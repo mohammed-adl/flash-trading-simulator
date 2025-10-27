@@ -2,7 +2,7 @@
   "name": "Flash",
   "version": "0.1.0",
   "private": true,
-"description": "Flash Trading Simulator frontend built with Next.js, React, and Tailwind CSS.",
+  "description": "Flash Trading Simulator frontend built with Next.js, React, and Tailwind CSS.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,6 +12,8 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-slot": "^1.2.3",
+    "@stripe/react-stripe-js": "^5.2.0",
+    "@stripe/stripe-js": "^8.1.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.55.0",
     "@tanstack/react-query": "^5.85.3",
