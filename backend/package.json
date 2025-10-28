@@ -8,6 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "start:prod": "npm run build && node dist/server.js",
+    "start:worker": "node dist/src/jobs/workers/priceWorker.js",
+    "start:all": "concurrently \"npm run start:prod\" \"npm run start:worker\"",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --watch",
     "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
@@ -20,6 +22,7 @@
     "@prisma/client": "^6.15.0",
     "bcrypt": "^6.0.0",
     "bullmq": "^5.62.0",
+    "concurrently": "^9.2.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",

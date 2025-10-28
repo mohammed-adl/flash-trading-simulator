@@ -1,5 +1,5 @@
-import { priceQueue } from "./priceQueue.js";
 import { PRICES_UPDATE_INTERVAL } from "../../config/constants.js";
+import { priceQueue } from "../queues/priceQueue.js";
 
 export async function schedulePriceFetch() {
   await priceQueue.add(

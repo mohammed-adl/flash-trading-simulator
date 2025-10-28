@@ -14,10 +14,8 @@ export function handleConnection(io, socket) {
         console.log("Client connected with watchlist socket id", socket.id);
         await updateClientWatchlist();
     });
-    // const interval = setInterval(updateClientWatchlist, PRICES_UPDATE_INTERVAL);
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-        // clearInterval(interval);
     });
 }
 //# sourceMappingURL=socketHandlers.js.map

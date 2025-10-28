@@ -27,11 +27,12 @@ services:
     environment:
       NODE_ENV: production
       PORT: 4000
-      ORIGIN: http://localhost:3000
-      DATABASE_URL: postgresql://flash_user:flash_password@postgres:5432/flash_db
+      ORIGIN: ${ORIGIN}
+      DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: ${REDIS_URL}
       ACCESS_SECRET: ${ACCESS_SECRET}
       REFRESH_SECRET: ${REFRESH_SECRET}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
     depends_on:
       - postgres
     networks:
