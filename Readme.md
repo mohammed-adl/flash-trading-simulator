@@ -4,6 +4,7 @@
 ![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express)
 ![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-D82C20?style=flat&logo=redis)
+![BullMQ](https://img.shields.io/badge/BullMQ-DC382D?style=flat&logo=bull&logoColor=white)
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-28A745?style=flat&logo=socketdotio&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
@@ -36,6 +37,8 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - 📊 Clean, responsive UI with notifications and analytics
 - 🧱 Modular architecture built for scalability
 - 🐳 Docker support for easy deployment
+- 🔧 Browser extension for quick access
+- 📱 Background job processing with BullMQ
 
 ---
 
@@ -79,6 +82,7 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - Fetch new missing symbols and add them to the global data cache.
 - Sends real-time updates **per user watchlist**, keeping portfolios and watchlists fresh.
 - Optimized for syncing, performance and scalable real-time delivery.
+- **BullMQ workers** handle scheduled price fetching jobs for reliability and scalability.
 
 ### Authentication & Security
 
@@ -125,10 +129,11 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - **AI/ML:** OpenAI GPT-4o-mini
 - **Realtime / Data:** Socket.IO, Yahoo Finance API
 - **Caching:** Redis
+- **Job Queue:** BullMQ
 - **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
 - **Deployment:** Render (backend), Vercel (frontend), Docker
-- **Browser Extension:** Manifest V3
-- **Payments:** Stripe (PaymentIntents, Elements)
+- **Browser Extension:** Manifest V3 (Chrome/Edge)
+- **Payments:** Stripe
 
 ---
 
@@ -162,6 +167,10 @@ flash/
 │  └─ src/
 │     ├─ config/      # Backend configuration files
 │     ├─ controllers/ # Express route handlers
+│     ├─ jobs/        # BullMQ queues, workers, and schedulers
+│     │  ├─ queues/   # Job queue definitions
+│     │  ├─ workers/  # Background job processors
+│     │  └─ schedulers/ # Job scheduling logic
 │     ├─ lib/         # Helper libraries
 │     ├─ middlewares/ # Auth, validation, rate limiting, etc.
 │     ├─ routes/      # API route definitions
@@ -169,6 +178,10 @@ flash/
 │     ├─ services/    # Business logic helpers
 │     ├─ socket/      # Socket.IO server code
 │     └─ utils/       # Utility functions
+├─ extension/         # Browser extension (Manifest V3)
+│  ├─ manifest.json   # Extension configuration
+│  ├─ popup/          # Extension popup UI
+│  ├─ background/     # Background scripts
 ├─ README.md
 ```
 
