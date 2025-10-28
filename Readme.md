@@ -1,9 +1,10 @@
-# ⚡ Flash – Real-Time Trading Simulator
+# ⚡ Flash – Real-Time Trading Platform
 
 ![Next.js](https://img.shields.io/badge/-Next.js-000000?style=flat-square&logo=next.js)
 ![Express](https://img.shields.io/badge/-Express-000000?style=flat-square&logo=express)
 ![Prisma](https://img.shields.io/badge/-Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-D82C20?style=flat&logo=redis)
+![BullMQ](https://img.shields.io/badge/BullMQ-DC382D?style=flat&logo=bull&logoColor=white)
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-28A745?style=flat&logo=socketdotio&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/-Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)
@@ -36,6 +37,8 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - 📊 Clean, responsive UI with notifications and analytics
 - 🧱 Modular architecture built for scalability
 - 🐳 Docker support for easy deployment
+- 🔧 Browser extension for quick access
+- 📱 Background job processing with BullMQ
 
 ---
 
@@ -45,17 +48,23 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 2. [Tech Stack](#tech-stack)
 3. [Architecture & Project Structure](#architecture--project-structure)
 4. [Getting Started](#getting-started)
-   - [With Docker (Recommended)](#with-docker-recommended)
-   - [Without Docker](#without-docker)
-5. [How it Works](#how-it-works)
-6. [Usage](#usage)
-7. [System Architecture](#system-architecture)
-8. [Screenshots / Demo](#screenshots--demo)
-9. [Future Improvements](#future-improvements)
+5. [System Architecture](#system-architecture)
+6. [Screenshots / Demo](#screenshots--demo)
+7. [Future Improvements](#future-improvements)
 
 ---
 
 ## Features
+
+### Global Data Fetching & Caching System
+
+- Periodically fetches global asset prices and caches them in memory to minimize API calls by 99%.
+- Optimized for syncing, performance and scalable real-time delivery with sub-100ms price update latency.
+- Uses symbols from each user's watchlist to determine which data to serve.
+- All users get served from the same global data cache.
+- Fetch new missing symbols and add them to the global data cache.
+- Sends real-time updates **per user watchlist**, keeping portfolios and watchlists fresh.
+- **BullMQ workers** handle scheduled price fetching jobs for reliability and scalability.
 
 ### Real-Time Trading & Portfolio Management
 
@@ -71,18 +80,9 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - Conversational interface for asking questions about your positions.
 - Get insights on portfolio performance and individual holdings.
 
-### Global Data Fetching & Caching System
-
-- Periodically fetches global asset prices and caches them in memory to minimize API calls.
-- Uses symbols from each user's watchlist to determine which data to serve.
-- All users get served from the same global data cache.
-- Fetch new missing symbols and add them to the global data cache.
-- Sends real-time updates **per user watchlist**, keeping portfolios and watchlists fresh.
-- Optimized for syncing, performance and scalable real-time delivery.
-
 ### Authentication & Security
 
-- Secure JWT-based authentication with automatic refresh token rotation.
+- Secure JWT-based authentication with automatic refresh token rotation and background token refreshing.
 - Password reset/change flows with robust input validation using Zod.
 - Protected routes, rate limiting, CORS, and Helmet ensure both security and reliability.
 
@@ -109,14 +109,14 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - Trade directly from your browser without opening the full app.
 - Supports real-time buy and sell operations.
 
----
-
 ### 💳 Subscriptions & Payments (Stripe Integration)
 
 - Seamless payment flow using Stripe for premium access or donation support.
 - Secure card collection with **Stripe Elements** and test-mode payments.
 - Fully PCI compliant — card data never touches your server.
 - Real-time confirmation of payments via `PaymentIntent` API.
+
+---
 
 ## Tech Stack
 
@@ -125,10 +125,11 @@ It's designed to demonstrate production-ready architecture, advanced caching, an
 - **AI/ML:** OpenAI GPT-4o-mini
 - **Realtime / Data:** Socket.IO, Yahoo Finance API
 - **Caching:** Redis
+- **Job Queue:** BullMQ
 - **Authentication & Security:** JWT, bcrypt, Zod, Helmet, CORS, Rate Limiting
 - **Deployment:** Render (backend), Vercel (frontend), Docker
-- **Browser Extension:** Manifest V3
-- **Payments:** Stripe (PaymentIntents, Elements)
+- **Browser Extension:** Manifest V3 (Chrome/Edge)
+- **Payments:** Stripe
 
 ---
 
@@ -162,6 +163,10 @@ flash/
 │  └─ src/
 │     ├─ config/      # Backend configuration files
 │     ├─ controllers/ # Express route handlers
+│     ├─ jobs/        # BullMQ queues, workers, and schedulers
+│     │  ├─ queues/   # Job queue definitions
+│     │  ├─ workers/  # Background job processors
+│     │  └─ schedulers/ # Job scheduling logic
 │     ├─ lib/         # Helper libraries
 │     ├─ middlewares/ # Auth, validation, rate limiting, etc.
 │     ├─ routes/      # API route definitions
@@ -169,10 +174,16 @@ flash/
 │     ├─ services/    # Business logic helpers
 │     ├─ socket/      # Socket.IO server code
 │     └─ utils/       # Utility functions
+├─ extension/         # Browser extension (Manifest V3)
+│  ├─ manifest.json   # Extension configuration
+│  ├─ popup/          # Extension popup UI
+│  ├─ background/     # Background scripts
 ├─ README.md
 ```
 
 ---
+
+## Getting Started
 
 ### With Docker (Recommended)
 
@@ -208,7 +219,6 @@ DATABASE_URL=postgresql://flash_user:flash_password@postgres:5432/flash_db
 REDIS_URL=rediss://default:your_upstash_password@your-upstash-url.upstash.io:6379
 
 STRIPE_SECRET_KEY=sk_test_yourSecretKey
-
 ```
 
 3. **Start all services with Docker Compose**
@@ -248,132 +258,9 @@ npm run dev
 docker-compose down
 ```
 
-### Without Docker
-
-#### Prerequisites
-
-Make sure you have the following installed:
-
-- Node.js (v18+ recommended)
-- npm
-- PostgreSQL (local or remote)
-- Redis
-
-#### Steps
-
-1. **Clone the repository**
-
-```bash
-git clone https://github.com/flash-trading-simulator/flash.git
-cd flash-trading-simulator
-```
-
-2. **Install dependencies**
-
-```bash
-# Backend
-cd backend
-npm install
-
-# Frontend
-cd ../frontend
-npm install
-```
-
-3. **Configure environment variables**
-
-**Backend `.env`**
-
-```bash
-NODE_ENV=development
-PORT=4000
-ORIGIN=http://localhost:3000
-
-ACCESS_SECRET=your_jwt_access_secret
-REFRESH_SECRET=your_jwt_refresh_secret
-
-DATABASE_URL=postgres://username:password@localhost:5432/flash
-REDIS_URL=redis://username:password@host:port
-```
-
-**Frontend `.env`**
-
-```bash
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-
-NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
-NEXT_PUBLIC_API_BASE_URL=http://localhost:4000
-
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_yourPublishableKey
-
-```
-
-4. **Run database migrations**
-
-```bash
-cd backend
-npx prisma generate
-npx prisma migrate dev
-```
-
-5. **Run the application**
-
-```bash
-# Start backend
-cd backend
-npm run dev
-
-# Start frontend
-cd ../frontend
-npm run dev
-```
-
-Open your browser at [http://localhost:3000](http://localhost:3000) to access the app.
-
-### Additional Notes
-
-- Ensure Redis and PostgreSQL are running before starting the backend.
-- The frontend supports hot-reloading — changes appear instantly in the browser.
-- Passwords are hashed with bcrypt, and authentication is handled via JWT.
-
 ---
 
-## How It Works
-
-### Real-Time Price Updates
-
-1. Backend fetches asset prices from Yahoo Finance API every x seconds
-2. Prices are cached globally in Redis to minimize API calls
-3. Socket.IO pushes updates to users based on their watchlists
-4. Frontend updates portfolio values in real-time
-
-### Trade Execution Flow
-
-1. User places buy/sell order through frontend
-2. Backend validates funds and availability
-3. Transaction is saved to PostgreSQL via Prisma
-4. Portfolio cache in Redis is updated
-5. Socket.IO broadcasts update to user's active sessions
-6. Frontend updates portfolio and trade history
-
-### AI Assistant
-
-1. User asks question about their portfolio
-2. Frontend sends query + portfolio context to backend
-3. Backend retrieves current holdings and live prices
-4. OpenAI analyzes data and generates insights
-5. Response is streamed back to user in real-time
-
-## Usage
-
-1. Sign up or log in with your account — new users start with an initial deposit.
-2. Search for any stock symbol (e.g. AAPL, TSLA) and add it to your watchlist.
-3. Buy or sell stocks — your portfolio updates in real time.
-4. Track your performance with portfolio charts, trade history, and analytics.
-
----
-
-### System Architecture
+## System Architecture
 
 ```
 ┌─────────────┐
@@ -382,17 +269,32 @@ Open your browser at [http://localhost:3000](http://localhost:3000) to access th
 └──────┬──────┘
        │ HTTP/WebSocket
        ↓
-┌─────────────┐      ┌──────────────┐
-│   Express   │ ───→ │  PostgreSQL  │
-│   Backend   │      │   (Prisma)   │
-└──────┬──────┘      └──────────────┘
-       │
-       ├───→ Upstash Redis (Cache)
-       │
-       ├───→ Yahoo Finance API (Prices)
-       │
-       └───→ OpenAI API (AI Assistant)
+╔═════════════════════════════════════╗
+║           Docker Container          ║
+║  ┌─────────────┐  ┌──────────────┐  ║
+║  │   Express   │─→│  PostgreSQL  │  ║
+║  │   Backend   │  │   (Prisma)   │  ║
+║  └──────┬──────┘  └──────────────┘  ║
+║         │         ┌──────────────┐  ║
+║         └────────→│Redis/BullMQ  │  ║
+║                   │   (Cache)    │  ║
+║                   └──────────────┘  ║
+╚═════════╪═══════════════════════════╝
+          │
+          ├───→ Yahoo Finance API (Prices)
+          │
+          └───→ OpenAI API (AI Assistant)
+
+┌─────────────────────┐
+│ Browser Extension   │
+│  (Quick Access)     │
+└─────────────────────┘
+       │ HTTP
+       ↓
+  (Connects to Backend)
 ```
+
+---
 
 ## Screenshots / Demo
 
