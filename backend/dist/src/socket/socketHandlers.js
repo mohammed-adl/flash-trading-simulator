@@ -1,5 +1,4 @@
 import { fetchUserPositions, buildWatchlistData } from "./assetService.js";
-import { PRICES_UPDATE_INTERVAL } from "../config/constants.js";
 export function handleConnection(io, socket) {
     console.log("Client connected");
     let clientWatchlist = [];
@@ -15,10 +14,10 @@ export function handleConnection(io, socket) {
         console.log("Client connected with watchlist socket id", socket.id);
         await updateClientWatchlist();
     });
-    const interval = setInterval(updateClientWatchlist, PRICES_UPDATE_INTERVAL);
+    // const interval = setInterval(updateClientWatchlist, PRICES_UPDATE_INTERVAL);
     socket.on("disconnect", () => {
         console.log("Client disconnected");
-        clearInterval(interval);
+        // clearInterval(interval);
     });
 }
 //# sourceMappingURL=socketHandlers.js.map

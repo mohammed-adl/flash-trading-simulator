@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { success, fail, prisma, fetchPrice, userSelect, tradeSelect, } from "../../lib/index.js";
+import { emitWatchlistUpdate } from "../../socket/index.js";
 import { redisService } from "../../services/index.js";
 export const buyStock = asyncHandler(async (req, res) => {
     const userId = req.user.id;
@@ -29,7 +30,8 @@ export const buyStock = asyncHandler(async (req, res) => {
         }
         else {
             const existingQty = Number(holdingExist.quantity);
-            const newAvgPrice = (Number(holdingExist.avgPrice) * existingQty + currentPrice * quantity) /
+            const newAvgPrice = (Number(holdingExist.avgPrice) * existingQty +
+                currentPrice * quantity) /
                 (existingQty + quantity);
             newHoldingData = {
                 quantity: existingQty + quantity,
@@ -76,6 +78,7 @@ export const buyStock = asyncHandler(async (req, res) => {
         quantity: result.holding.quantity,
         avgPrice: result.holding.avgPrice,
     });
+    emitWatchlistUpdate(userId);
     return success(res, {
         user: result.user,
         holding: result.holding,

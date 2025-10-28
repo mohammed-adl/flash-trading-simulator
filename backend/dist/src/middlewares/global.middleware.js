@@ -28,10 +28,13 @@ export const authLimiter = rateLimit({
 export const registerMiddlewares = (app) => {
     app.set("trust proxy", 1);
     app.use(helmet());
-    const allowedOrigins = [`${process.env.ORIGIN}`, "http://localhost:3000"];
+    const allowedOrigins = [process.env.ORIGIN, "http://localhost:3000"];
     app.use(cors({
         origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
+            if (!origin || origin.startsWith("chrome-extension://")) {
+                return callback(null, true);
+            }
+            if (allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
             return callback(new Error("Not allowed by CORS"));

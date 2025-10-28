@@ -1,5 +1,7 @@
 import yahooFinance from "yahoo-finance2";
+import { io } from "../socket/index.js";
 import { calcPnLPercent } from "../utils/index.js";
+import { prisma, userSelect } from "../lib/index.js";
 import { notificationService, redisService } from "../services/index.js";
 import { PRICES_UPDATE_INTERVAL } from "../config/index.js";
 export const assetsCache = new Map();
@@ -27,7 +29,11 @@ async function watchMilestone(userPositions, userId) {
         if (pnlPercent >= 5 || pnlPercent <= -5) {
             const direction = pnlPercent > 0 ? "profit" : "loss";
             try {
-                await notificationService.createWarning({ userId, symbol: pos.symbol, direction });
+                await notificationService.createWarning({
+                    userId,
+                    symbol: pos.symbol,
+                    direction,
+                });
             }
             catch (err) {
                 console.error("Error sending milestone notification:", err.message);
@@ -88,6 +94,18 @@ export async function fetchAllPrices() {
     catch (err) {
         console.error("Error in fetchAllPrices:", err.message);
     }
+}
+// Emit watchlist update to client whenver new operation is performed via extension
+export async function emitWatchlistUpdate(userId) {
+    const userPositions = await redisService.getPositions(userId);
+    const symbols = Object.keys(userPositions);
+    const watchlistData = await buildWatchlistData(symbols, userPositions);
+    io.to(userId).emit("assetUpdate", watchlistData);
+    const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: userSelect,
+    });
+    io.to(userId).emit("userDataUpdate", user);
 }
 setInterval(fetchAllPrices, PRICES_UPDATE_INTERVAL);
 //# sourceMappingURL=assetService.js.map

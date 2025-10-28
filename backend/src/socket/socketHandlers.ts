@@ -32,10 +32,7 @@ export function handleConnection(io: Server, socket: Socket) {
     await updateClientWatchlist();
   });
 
-  const interval = setInterval(updateClientWatchlist, PRICES_UPDATE_INTERVAL);
-
   socket.on("disconnect", () => {
     console.log("Client disconnected");
-    clearInterval(interval);
   });
 }
