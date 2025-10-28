@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     
     /* Type Definitions */
-    "types": ["node", "express"],
+    "types": ["node", "express", "jest"],
     
     /* Debugging */
     "sourceMap": true,
