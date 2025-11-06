@@ -1,4 +1,0 @@
-export function generatePasscode() {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-}
-//# sourceMappingURL=passcode.js.map
