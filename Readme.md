@@ -178,6 +178,7 @@ flash/
 │  ├─ manifest.json   # Extension configuration
 │  ├─ popup/          # Extension popup UI
 │  ├─ background/     # Background scripts
+├─ github/            # GitHub Actions
 ├─ README.md
 ```
 
