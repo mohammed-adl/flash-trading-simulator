@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useUser } from "@/contexts";
+import { LoadingScreen } from "@/components/ui";
 
 function PublicRoute({ children }) {
   const { user } = useUser();
@@ -14,7 +15,7 @@ function PublicRoute({ children }) {
     }
   }, [user, router]);
 
-  if (user) return null;
+  if (user) return <LoadingScreen />;
 
   return <>{children}</>;
 }
